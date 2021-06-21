@@ -1,0 +1,1 @@
+- [implement design template component on demand - like chart](https://www.digitalocean.com/community/conceptual_articles/react-loading-components-dynamically-hooks)
