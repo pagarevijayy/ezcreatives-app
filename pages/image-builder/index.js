@@ -32,7 +32,9 @@ const determineTemplateCategory = (templateName) => {
 const ImageBuilder = () => {
   const [isBrowser, setIsBrowser] = useState(false);
   const [currentTemplate, SetCurrentTemplate] = useState({});
-  const [requestedTemplate, SetRequestedTemplate] = useState("SquareQuote");
+  const [requestedTemplate, SetRequestedTemplate] = useState(
+    "HorizontalPoppedTitle"
+  );
 
   useEffect(() => {
     const templateCategory = determineTemplateCategory(requestedTemplate);
@@ -74,25 +76,25 @@ const ImageBuilder = () => {
                 <p>form fields</p>
               </div>
             </div>
-            <div className="p-4 md:border-l-2 md:border-cyan-500">
+            <div className="p-4">
               <h1 className="text-lg font-medium"> Preview </h1>
               <div className="py-8 flex flex-col items-center justify-center gap-6">
                 <Suspense fallback={<div>Loading...</div>}>
-                  <RenderCurrentTemplate
-                    currentTemplate={currentTemplate}
-                    templateConfig={{
-                      subQuote: "Marcus",
-                      // mainContentFontStyles: "tracking-tight",
-                      // mainContentPadding: "px-2",
-                      brandHandle: "@wethesapiens_",
-                      // brandingFontStyles: "text-xs",
-                      imageURL:
-                        "https://pbs.twimg.com/media/E4FxflGUcA0OBIx.png",
-                      IllustrationCredits: "@rovinacai",
-                      quote:
-                        "Money and success don’t change people; they merely amplify what is already there.",
-                    }}
-                  />
+                  <div style={{ zoom: 0.75 }}>
+                    <RenderCurrentTemplate
+                      currentTemplate={currentTemplate}
+                      templateConfig={{
+                        subQuote: "20 mins challenge",
+                        mainContentFontStyles: "text-5xl",
+                        // mainContentPadding: "px-2",
+                        // brandHandle: "@wethesapiens_",
+                        subContentFontStyles: "text-xl",
+                        imageURL:
+                          "https://images.unsplash.com/photo-1518611012118-696072aa579a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+                        quote: "Core Workout Routine",
+                      }}
+                    />
+                  </div>
                 </Suspense>
               </div>
             </div>
