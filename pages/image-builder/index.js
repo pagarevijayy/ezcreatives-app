@@ -9,14 +9,7 @@ const importTemplate = (templateName) =>
 
 const RenderCurrentTemplate = ({ currentTemplate, templateConfig }) => {
   return Object.values(currentTemplate).map((Template, index) => (
-    <Template
-      key={`${index}`}
-      quote={templateConfig.quote}
-      author={templateConfig.author}
-      imageURL={templateConfig.image}
-      socialHandle="The Philosophy Quote"
-      mainContentPadding="px-4"
-    />
+    <Template key={`${index}`} templateData={templateConfig} />
   ));
 };
 
@@ -81,11 +74,14 @@ const ImageBuilder = () => {
                   <RenderCurrentTemplate
                     currentTemplate={currentTemplate}
                     templateConfig={{
-                      author: "First Proverb",
-                      image: "https://pbs.twimg.com/media/E4FxflGUcA0OBIx.png",
+                      subQuote: "First Proverb",
+                      mainContentPadding: "px-2",
+                      brandHandle: "@wethesapiens_",
+                      imageURL:
+                        "https://pbs.twimg.com/media/E4FxflGUcA0OBIx.png",
                       IllustrationCredits: "@rovinacai",
                       quote:
-                        "Not everyone who chased the zebra caught it, but he who caught it, chased it.",
+                        "Life is never easy. There is work to be done and obligations to be met – obligations to truth, to justice, and to liberty.",
                     }}
                   />
                 </Suspense>

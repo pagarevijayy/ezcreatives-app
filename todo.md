@@ -1,1 +1,7 @@
-- [implement design template component on demand - like chart](https://www.digitalocean.com/community/conceptual_articles/react-loading-components-dynamically-hooks)
+Stories
+[ ] dashboard - single and multiple images
+[ ] homepage - web mode + demo
+[ ] login
+[ ] rate limiting
+[ ] sales funnel
+[ ] marketing funnel
