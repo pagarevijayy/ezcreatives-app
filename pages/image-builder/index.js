@@ -16,7 +16,7 @@ const RenderCurrentTemplate = ({ currentTemplate, templateConfig }) => {
 const ImageBuilder = () => {
   const [isBrowser, setIsBrowser] = useState(false);
   const [currentTemplate, SetCurrentTemplate] = useState({});
-  const [requestedTemplate, SetRequestedTemplate] = useState("SquareTwitter");
+  const [requestedTemplate, SetRequestedTemplate] = useState("SquareQuote");
 
   useEffect(() => {
     const ImportedTemplate = importTemplate(requestedTemplate);
@@ -62,10 +62,10 @@ const ImageBuilder = () => {
                     currentTemplate={currentTemplate}
                     templateConfig={{
                       subQuote: "Marcus",
-                      mainContentFontStyles: "tracking-tight",
+                      // mainContentFontStyles: "tracking-tight",
                       // mainContentPadding: "px-2",
                       brandHandle: "@wethesapiens_",
-                      brandingFontStyles: "text-xs",
+                      // brandingFontStyles: "text-xs",
                       imageURL:
                         "https://pbs.twimg.com/media/E4FxflGUcA0OBIx.png",
                       IllustrationCredits: "@rovinacai",
