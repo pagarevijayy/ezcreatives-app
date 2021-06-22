@@ -33,7 +33,7 @@ const ImageBuilder = () => {
   const [isBrowser, setIsBrowser] = useState(false);
   const [currentTemplate, SetCurrentTemplate] = useState({});
   const [requestedTemplate, SetRequestedTemplate] = useState(
-    "HorizontalPoppedTitle"
+    "HorizontalPodcastGuest"
   );
 
   useEffect(() => {
@@ -84,14 +84,16 @@ const ImageBuilder = () => {
                     <RenderCurrentTemplate
                       currentTemplate={currentTemplate}
                       templateConfig={{
-                        subQuote: "20 mins challenge",
-                        mainContentFontStyles: "text-5xl",
+                        subQuote: "in conversation with Neil Patel",
+                        // mainContentFontStyles: "",
                         // mainContentPadding: "px-2",
                         // brandHandle: "@wethesapiens_",
-                        subContentFontStyles: "text-xl",
+                        // subContentFontStyles: "text-xl",
+                        imageURL2:
+                          "https://pbs.twimg.com/profile_images/829191018331385858/jxsj-ZmD.jpg",
                         imageURL:
-                          "https://images.unsplash.com/photo-1518611012118-696072aa579a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-                        quote: "Core Workout Routine",
+                          "https://assets.entrepreneur.com/content/1x1/300/20180118150600-GaryVaynerchuk-Headshot.png",
+                        quote: "How Digital Marketing will change in 2021",
                       }}
                     />
                   </div>
