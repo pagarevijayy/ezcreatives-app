@@ -17,7 +17,7 @@ const ImageBuilder = () => {
   const [isBrowser, setIsBrowser] = useState(false);
   const [currentTemplate, SetCurrentTemplate] = useState({});
   const [requestedTemplate, SetRequestedTemplate] = useState(
-    "SquareEncircledTopImage"
+    "SquareClippedTopImage"
   );
 
   useEffect(() => {
@@ -53,13 +53,7 @@ const ImageBuilder = () => {
             <div className="p-4">
               <h1 className="text-lg font-medium"> Editor </h1>
               <div>
-                <p>
-                  form fields
-                  {/* - Fields - Quote - SubQuote/Author - Image URL (cors enabled)
-                  - SocialHandle - MainContentPadding - MainContentFont -
-                  MainContentFontSize - MainContentFontColor - BackgroundColor
-                  (linear/gradient) */}
-                </p>
+                <p>form fields</p>
               </div>
             </div>
             <div className="p-4 md:border-l-2 md:border-cyan-500">
@@ -71,14 +65,14 @@ const ImageBuilder = () => {
                     templateConfig={{
                       subQuote: "Marcus",
                       // mainContentFontStyles: "text-base",
-                      // mainContentPadding: "px-0",
+                      // mainContentPadding: "px-2",
                       brandHandle: "@wethesapiens_",
                       // subContentFontStyles: "text-xs",
                       imageURL:
                         "https://pbs.twimg.com/media/E4FxflGUcA0OBIx.png",
                       IllustrationCredits: "@rovinacai",
                       quote:
-                        "Life is never easy. There is work to be done and obligations to be met – obligations to truth, to justice, and to liberty",
+                        "Money and success don’t change people; they merely amplify what is already there.",
                     }}
                   />
                 </Suspense>
