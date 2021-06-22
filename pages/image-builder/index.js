@@ -16,9 +16,8 @@ const RenderCurrentTemplate = ({ currentTemplate, templateConfig }) => {
 const ImageBuilder = () => {
   const [isBrowser, setIsBrowser] = useState(false);
   const [currentTemplate, SetCurrentTemplate] = useState({});
-  const [requestedTemplate, SetRequestedTemplate] = useState(
-    "SquareClippedTopImage"
-  );
+  const [requestedTemplate, SetRequestedTemplate] =
+    useState("SquareRightImage");
 
   useEffect(() => {
     const ImportedTemplate = importTemplate(requestedTemplate);
@@ -67,7 +66,7 @@ const ImageBuilder = () => {
                       // mainContentFontStyles: "text-base",
                       // mainContentPadding: "px-2",
                       brandHandle: "@wethesapiens_",
-                      // subContentFontStyles: "text-xs",
+                      subContentFontStyles: "text-xs",
                       imageURL:
                         "https://pbs.twimg.com/media/E4FxflGUcA0OBIx.png",
                       IllustrationCredits: "@rovinacai",
