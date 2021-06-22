@@ -33,7 +33,7 @@ const ImageBuilder = () => {
   const [isBrowser, setIsBrowser] = useState(false);
   const [currentTemplate, SetCurrentTemplate] = useState({});
   const [requestedTemplate, SetRequestedTemplate] = useState(
-    "HorizontalPodcastGuest"
+    "VerticalClippedBottomImage"
   );
 
   useEffect(() => {
