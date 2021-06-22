@@ -1,10 +1,12 @@
 import { lazy, Suspense, useState, useEffect } from "react";
 
-const importTemplate = (templateName) =>
+const importTemplate = (templateName, templateCategory) =>
   lazy(() => {
-    return import("../../lib/templates/square-designs").then((module) => ({
-      default: module[templateName],
-    }));
+    return import(`../../lib/templates/${templateCategory}-designs`).then(
+      (module) => ({
+        default: module[templateName],
+      })
+    );
   });
 
 const RenderCurrentTemplate = ({ currentTemplate, templateConfig }) => {
@@ -13,13 +15,31 @@ const RenderCurrentTemplate = ({ currentTemplate, templateConfig }) => {
   ));
 };
 
+const determineTemplateCategory = (templateName) => {
+  if (templateName.toLowerCase().includes("square")) {
+    return "square";
+  }
+
+  if (templateName.toLowerCase().includes("horizontal")) {
+    return "horizontal";
+  }
+
+  if (templateName.toLowerCase().includes("vertical")) {
+    return "vertical";
+  }
+};
+
 const ImageBuilder = () => {
   const [isBrowser, setIsBrowser] = useState(false);
   const [currentTemplate, SetCurrentTemplate] = useState({});
   const [requestedTemplate, SetRequestedTemplate] = useState("SquareQuote");
 
   useEffect(() => {
-    const ImportedTemplate = importTemplate(requestedTemplate);
+    const templateCategory = determineTemplateCategory(requestedTemplate);
+    const ImportedTemplate = importTemplate(
+      requestedTemplate,
+      templateCategory
+    );
     SetCurrentTemplate({ [requestedTemplate]: ImportedTemplate });
   }, [requestedTemplate]);
 
