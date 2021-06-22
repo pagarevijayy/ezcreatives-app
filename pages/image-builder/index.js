@@ -16,7 +16,8 @@ const RenderCurrentTemplate = ({ currentTemplate, templateConfig }) => {
 const ImageBuilder = () => {
   const [isBrowser, setIsBrowser] = useState(false);
   const [currentTemplate, SetCurrentTemplate] = useState({});
-  const [requestedTemplate, SetRequestedTemplate] = useState("SquareWisdom");
+  const [requestedTemplate, SetRequestedTemplate] =
+    useState("SquareBottomImage");
 
   useEffect(() => {
     const ImportedTemplate = importTemplate(requestedTemplate);
@@ -74,8 +75,8 @@ const ImageBuilder = () => {
                   <RenderCurrentTemplate
                     currentTemplate={currentTemplate}
                     templateConfig={{
-                      subQuote: "First Proverb",
-                      mainContentPadding: "px-2",
+                      subQuote: "Marcus",
+                      // mainContentPadding: "p-4",
                       brandHandle: "@wethesapiens_",
                       imageURL:
                         "https://pbs.twimg.com/media/E4FxflGUcA0OBIx.png",
