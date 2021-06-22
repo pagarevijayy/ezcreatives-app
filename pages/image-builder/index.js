@@ -16,8 +16,9 @@ const RenderCurrentTemplate = ({ currentTemplate, templateConfig }) => {
 const ImageBuilder = () => {
   const [isBrowser, setIsBrowser] = useState(false);
   const [currentTemplate, SetCurrentTemplate] = useState({});
-  const [requestedTemplate, SetRequestedTemplate] =
-    useState("SquareBottomImage");
+  const [requestedTemplate, SetRequestedTemplate] = useState(
+    "SquareEncircledTopImage"
+  );
 
   useEffect(() => {
     const ImportedTemplate = importTemplate(requestedTemplate);
@@ -64,25 +65,20 @@ const ImageBuilder = () => {
             <div className="p-4 md:border-l-2 md:border-cyan-500">
               <h1 className="text-lg font-medium"> Preview </h1>
               <div className="py-8 flex flex-col items-center justify-center gap-6">
-                {/* <SquareWisdom
-                  quote="You know, there are two good things in life, freedom of thought and freedom of action."
-                  author="Bertrand Russell"
-                  imageURL="https://www.the-philosophy.com/wp-content/uploads/2011/06/bertrand_russell_image.jpg"
-                  socialHandle="The Philosophy Quote"
-                  mainContentPadding="px-8"
-                /> */}
                 <Suspense fallback={<div>Loading...</div>}>
                   <RenderCurrentTemplate
                     currentTemplate={currentTemplate}
                     templateConfig={{
                       subQuote: "Marcus",
-                      // mainContentPadding: "p-4",
+                      // mainContentFontStyles: "text-base",
+                      // mainContentPadding: "px-0",
                       brandHandle: "@wethesapiens_",
+                      // subContentFontStyles: "text-xs",
                       imageURL:
                         "https://pbs.twimg.com/media/E4FxflGUcA0OBIx.png",
                       IllustrationCredits: "@rovinacai",
                       quote:
-                        "Life is never easy. There is work to be done and obligations to be met – obligations to truth, to justice, and to liberty.",
+                        "Life is never easy. There is work to be done and obligations to be met – obligations to truth, to justice, and to liberty",
                     }}
                   />
                 </Suspense>
