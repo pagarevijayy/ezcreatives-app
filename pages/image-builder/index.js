@@ -71,9 +71,101 @@ const ImageBuilder = () => {
           </div>
           <div className="text-center m-4 md:grid md:grid-cols-2">
             <div className="p-4">
-              <h1 className="text-lg font-medium"> Editor </h1>
-              <div>
-                <p>form fields</p>
+              <h2 className="text-2xl font-bold">Editor</h2>
+              <div className="py-8">
+                <div className="text-left">
+                  <form>
+                    <label className="block">
+                      <span className="text-gray-700">Template ID</span>
+                      <input type="text" className="" placeholder="" />
+                    </label>
+                    <div className="mt-8">
+                      <h3 className="text-xl font-medium">Content</h3>
+                      <div className="mt-6 max-w-md">
+                        <div className="grid grid-cols-1 gap-6">
+                          <label className="block">
+                            <span className="text-gray-700">
+                              Primary Content (quote)
+                            </span>
+                            <textarea className="" rows="3" />
+                          </label>
+
+                          <label className="block">
+                            <span className="text-gray-700">
+                              Secondary Content (sub-quote)
+                            </span>
+                            <input type="text" className="" placeholder="" />
+                          </label>
+
+                          <label className="block">
+                            <span className="text-gray-700">
+                              Primary Image URL
+                            </span>
+                            <input type="url" className="" placeholder="" />
+                          </label>
+
+                          <label className="block">
+                            <span className="text-gray-700">
+                              Brand Handle (if any)
+                            </span>
+                            <input type="text" className="" placeholder="" />
+                          </label>
+
+                          <label className="block">
+                            <span className="text-gray-700">
+                              Secondary Image URL (if any)
+                            </span>
+                            <input type="url" className="" placeholder="" />
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-8">
+                      <h3 className="text-xl font-medium">Styling</h3>
+                      <div className="mt-6 max-w-md">
+                        <div className="grid grid-cols-1 gap-6">
+                          <label className="block">
+                            <span className="text-gray-700">
+                              Padding - Main Content
+                            </span>
+                            <input type="text" className="" placeholder="" />
+                          </label>
+
+                          <label className="block">
+                            <span className="text-gray-700">
+                              Font Styles - Main Content
+                            </span>
+                            <input type="text" className="" placeholder="" />
+                          </label>
+
+                          <label className="block">
+                            <span className="text-gray-700">
+                              Font Styles - Secondary Content
+                            </span>
+
+                            <input type="text" className="" placeholder="" />
+                          </label>
+
+                          <label className="block">
+                            <span className="text-gray-700">
+                              Background Color
+                            </span>
+
+                            <input type="text" className="" placeholder="" />
+                          </label>
+
+                          <label className="block">
+                            <span className="text-gray-700">
+                              Font Styles - Brand Handle (if any)
+                            </span>
+
+                            <input type="text" className="" placeholder="" />
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
             <div className="p-4">

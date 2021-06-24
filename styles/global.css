@@ -8,8 +8,22 @@
 
 @tailwind utilities;
 
-@media (max-width: 768px) {
-  .zoom-out-75 {
-    zoom: 0.75;
+@layer base {
+  [type="text"],
+  [type="email"],
+  [type="url"],
+  [type="password"],
+  [type="number"],
+  [type="date"],
+  [type="datetime-local"],
+  [type="month"],
+  [type="search"],
+  [type="tel"],
+  [type="time"],
+  [type="week"],
+  [multiple],
+  textarea,
+  select {
+    @apply mt-1 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-gray-100 focus:ring-0;
   }
 }
