@@ -10,7 +10,8 @@ Stories
 
 [x] Improve all designs (13/13)
 [ ] Complete Single Image View
-[ ] forms
+[x] forms
+[ ] apply debounce
 [ ] Complete Multi Images View
 [ ] connect sheets
 [ ] Refactor UI (into components and stuff)
@@ -35,3 +36,7 @@ form
 - brandingFontStyles: "",
 - bgColorStyles: "",
 - bgOpacity: "",
+
+---
+
+[ ] apply debounce
