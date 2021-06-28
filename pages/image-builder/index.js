@@ -420,7 +420,13 @@ const ImageBuilder = () => {
                 </div>
                 <div className="flex flex-col items-center justify-center gap-6">
                   <Suspense fallback={<div>Loading...</div>}>
-                    <div style={{ zoom: 0.75 }}>
+                    <div
+                      className={
+                        requestedTemplate.toLowerCase().includes("horizontal")
+                          ? "zoom-50"
+                          : "zoom-75"
+                      }
+                    >
                       <RenderCurrentTemplate
                         currentTemplate={currentTemplate}
                         templateConfig={templateConfigData}
