@@ -1,4 +1,4 @@
-## ezCreative App
+## ezCreatives Main App
 The Actual App used for auto-generation of creatives 
 
 
