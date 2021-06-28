@@ -51,7 +51,7 @@ const downloadFiles = (element, filename) => {
       a.href = dataUrl;
       a.download = filename;
       a.click();
-      console.log("downloading", filename);
+      console.log("downloading...", filename);
     });
 };
 
@@ -70,6 +70,33 @@ const ImageBuilder = () => {
     useState(designTemplateConfig);
 
   const imageReference = useRef(null);
+  const multiImageReference = useRef(null);
+  multiImageReference.current = [];
+
+  const [multiImageContent, setMultiImageContent] = useState([
+    {
+      subQuote: "Sun Tzu",
+      imageURL: "https://pbs.twimg.com/media/Eu-1XoxUcAMhhsb.jpg",
+      brandHandle: "@wethesapiens_",
+      quote:
+        "Victorious warriors win first and then go to war, while defeated warriors go to war first and then seek to win.",
+    },
+    {
+      subQuote: "African Proverb",
+      imageURL: "https://pbs.twimg.com/media/E4FxflGUcA0OBIx.png",
+      brandHandle: "@wethesapiens_",
+      quote:
+        "Not everyone who chased the zebra caught it, but he who caught it, chased it.",
+    },
+    {
+      subQuote: "Thích Nhat Hanh",
+      imageURL: "https://pbs.twimg.com/media/E4F6PcRUcBMVMKm.png",
+      quote:
+        "For things to reveal themselves to us, we need to be ready to abandon our views about them.",
+      brandHandle: "@wethesapiens_",
+    },
+  ]);
+
   const [isMultipleImageMode, setIsMultipleImageMode] = useState(false);
 
   const generateImage = (values) => {
@@ -135,6 +162,27 @@ const ImageBuilder = () => {
     downloadFiles(imageReference.current, "atb");
   };
 
+  const generateMultipleImage = () => {
+    console.log("generate multi images...");
+    console.log("multiImageContent", multiImageContent);
+
+    // set multiImageContent here. (the new array)
+  };
+
+  const downloadMultipleImage = () => {
+    console.log("download multi images...");
+
+    multiImageReference.current.forEach((e, i) => {
+      downloadFiles(e, `ezcreatives_${i}`);
+    });
+  };
+
+  const addToMultiImageReference = (element) => {
+    if (element && !multiImageReference.current.includes(element)) {
+      multiImageReference.current.push(element);
+    }
+  };
+
   if (!isBrowser) return null;
 
   return (
@@ -148,31 +196,31 @@ const ImageBuilder = () => {
           </div>
         </div>
         <div className="py-4 px-4 text-center max-w-screen-xl mx-auto">
-          <div className="mt-4 inline-block select-none cursor-pointer text-xs rounded-lg border border-cyan-500 divide-x overflow-hidden">
-            <div
+          <div className="mt-4 select-none text-xs ">
+            <button
               className={`${
                 !isMultipleImageMode
                   ? "bg-cyan-500 text-white font-semibold"
                   : ""
-              } py-2 px-4 inline-block`}
+              } py-2 px-4 inline-block rounded-l-lg border border-cyan-500 outline-none focus:outline-none`}
               onClick={() => {
                 setIsMultipleImageMode(false);
               }}
             >
               single image
-            </div>
-            <div
+            </button>
+            <button
               className={`${
                 isMultipleImageMode
                   ? "bg-cyan-500 text-white font-semibold"
                   : ""
-              } py-2 px-4 inline-block`}
+              } py-2 px-4 inline-block rounded-r-lg border border-cyan-500 outline-none focus:outline-none`}
               onClick={() => {
                 setIsMultipleImageMode(true);
               }}
             >
               multiple image
-            </div>
+            </button>
           </div>
           {!isMultipleImageMode && (
             <div className="text-center my-6 md:divide-x md:grid md:grid-cols-2">
@@ -492,8 +540,86 @@ const ImageBuilder = () => {
             </div>
           )}
           {isMultipleImageMode && (
-            <div>
-              <p className="p-5">is multiple image mode</p>
+            <div className="text-center my-6 md:divide-x md:grid md:grid-cols-2">
+              <div className="">
+                <div className="md:max-w-xs lg:max-w-md mx-auto">
+                  <h2 className="text-2xl font-bold">Editor</h2>
+                  <div className="mt-4 text-left space-y-8">
+                    <div className="text-center hidden md:block">
+                      <button
+                        className="w-48 rounded-lg px-3 py-2 border border-cyan-500 focus:outline-none"
+                        onClick={generateMultipleImage}
+                      >
+                        Generate Image
+                      </button>
+                    </div>
+                    <label className="block">
+                      <span className="text-gray-700">Template ID</span>
+                      <input
+                        type="text"
+                        className=""
+                        placeholder="Enter template id"
+                        onChange={handleTemplateId}
+                      />
+                    </label>
+
+                    <div className="text-center md:hidden">
+                      <button
+                        className="w-48 rounded-lg px-3 py-2 border border-cyan-500 focus:outline-none"
+                        onClick={generateMultipleImage}
+                      >
+                        Generate Image
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-8 md:mt-0">
+                <h2 className="text-2xl font-bold">Preview</h2>
+                <div className="mt-4 space-y-8">
+                  <div className="text-center hidden md:block">
+                    <button
+                      className="border border-cyan-500 rounded-lg w-48 px-3 py-2 focus:outline-none"
+                      onClick={downloadMultipleImage}
+                    >
+                      Download Image
+                    </button>
+                  </div>
+                  <div className="flex flex-col items-center justify-center gap-6">
+                    <Suspense fallback={<div>Loading...</div>}>
+                      {multiImageContent.map((imageConfigData, index) => {
+                        return (
+                          <div
+                            key={`image_${index}`}
+                            className={`${
+                              requestedTemplate
+                                .toLowerCase()
+                                .includes("horizontal")
+                                ? "zoom-50"
+                                : "zoom-80"
+                            } shadow`}
+                          >
+                            <div ref={addToMultiImageReference}>
+                              <RenderCurrentTemplate
+                                currentTemplate={currentTemplate}
+                                templateConfig={imageConfigData}
+                              />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </Suspense>
+                  </div>
+                  <div className="text-center md:hidden">
+                    <button
+                      className="border border-cyan-500 rounded-lg w-48 px-3 py-2 focus:outline-none"
+                      onClick={downloadMultipleImage}
+                    >
+                      Download Image
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
         </div>

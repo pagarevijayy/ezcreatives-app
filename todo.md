@@ -1,4 +1,2 @@
-[x] export one image (all screens)
-[ ] export many
-[ ] zip many images
-[ ] replace json by sheet
+**Local todo**
+(use it for logic breakdown and other immediate stuff while programming)
