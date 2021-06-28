@@ -1,4 +1,10 @@
 ## ezCreative App
+The Actual App used for auto-generation of creatives 
 
-- Use [github issues](https://github.com/pagarevijayy/app-ezcreatives/issues) for feature planning, bugs, and other tasks
-- Projects [board](https://github.com/pagarevijayy/app-ezcreatives/projects/1) for project management
+
+#### What to do?
+1. First implement things from the issues section, and then move on to roadmap's board
+
+#### Project Management
+1. Use [Github Issues](https://github.com/pagarevijayy/app-ezcreatives/issues) for bugs and enhancement of existing features
+2. Use [Project Boards](https://github.com/pagarevijayy/app-ezcreatives/projects) for to-dos and backlogs
