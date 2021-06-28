@@ -148,31 +148,31 @@ const ImageBuilder = () => {
           </div>
         </div>
         <div className="py-4 px-4 text-center max-w-screen-xl mx-auto">
-          <div className="mt-4 inline-block select-none cursor-pointer text-xs rounded-lg border border-cyan-500 divide-x overflow-hidden">
-            <div
+          <div className="mt-4 select-none text-xs ">
+            <button
               className={`${
                 !isMultipleImageMode
                   ? "bg-cyan-500 text-white font-semibold"
                   : ""
-              } py-2 px-4 inline-block`}
+              } py-2 px-4 inline-block rounded-l-lg border border-cyan-500 outline-none focus:outline-none`}
               onClick={() => {
                 setIsMultipleImageMode(false);
               }}
             >
               single image
-            </div>
-            <div
+            </button>
+            <button
               className={`${
                 isMultipleImageMode
                   ? "bg-cyan-500 text-white font-semibold"
                   : ""
-              } py-2 px-4 inline-block`}
+              } py-2 px-4 inline-block rounded-r-lg border border-cyan-500 outline-none focus:outline-none`}
               onClick={() => {
                 setIsMultipleImageMode(true);
               }}
             >
               multiple image
-            </div>
+            </button>
           </div>
           {!isMultipleImageMode && (
             <div className="text-center my-6 md:divide-x md:grid md:grid-cols-2">
