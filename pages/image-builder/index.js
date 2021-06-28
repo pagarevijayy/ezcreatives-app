@@ -4,6 +4,8 @@ import { Disclosure, Transition } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/solid";
 import { useRef } from "react";
 import debounce from "lodash.debounce";
+import * as htmlToImage from "html-to-image";
+
 import { designTemplateConfig } from "../../constants/template.config";
 
 const importTemplate = (templateName, templateCategory) =>
@@ -39,6 +41,20 @@ const removeEmptyKeys = (obj) => {
   return Object.fromEntries(Object.entries(obj).filter(([_, v]) => !!v));
 };
 
+const downloadFiles = (element, filename) => {
+  htmlToImage
+    .toPng(element, {
+      pixelRatio: 3,
+    })
+    .then(function (dataUrl) {
+      let a = document.createElement("a");
+      a.href = dataUrl;
+      a.download = filename;
+      a.click();
+      console.log("downloading", filename);
+    });
+};
+
 const ImageBuilder = () => {
   const debouncedTemplateID = useRef(
     debounce((id) => {
@@ -53,14 +69,10 @@ const ImageBuilder = () => {
   const [templateConfigData, setTemplateConfigData] =
     useState(designTemplateConfig);
 
-  const generatePreview = (values) => {
-    // templateConfigData = { ...values };
+  const imageReference = useRef(null);
 
-    console.log("values:", values);
-
+  const generateImage = (values) => {
     const trimmedValues = removeEmptyKeys(values);
-
-    console.log("trimmedValues", trimmedValues);
     setTemplateConfigData(trimmedValues);
   };
 
@@ -78,7 +90,7 @@ const ImageBuilder = () => {
       bgColorStyles: "",
       bgOpacity: "",
     },
-    onSubmit: generatePreview,
+    onSubmit: generateImage,
   });
 
   useEffect(() => {
@@ -116,6 +128,10 @@ const ImageBuilder = () => {
     const templateValue = e?.target?.value;
     // console.log("templateValue", templateValue);
     debouncedTemplateID(templateValue);
+  };
+
+  const downloadImage = () => {
+    downloadFiles(imageReference.current, "atb");
   };
 
   if (!isBrowser) return null;
@@ -413,7 +429,7 @@ const ImageBuilder = () => {
                 <div className="text-center hidden md:block">
                   <button
                     className="border border-cyan-500 rounded-lg w-48 px-3 py-2 focus:outline-none"
-                    type="submit"
+                    onClick={downloadImage}
                   >
                     Download Image
                   </button>
@@ -424,20 +440,22 @@ const ImageBuilder = () => {
                       className={
                         requestedTemplate.toLowerCase().includes("horizontal")
                           ? "zoom-50"
-                          : "zoom-75"
+                          : "zoom-80"
                       }
                     >
-                      <RenderCurrentTemplate
-                        currentTemplate={currentTemplate}
-                        templateConfig={templateConfigData}
-                      />
+                      <div ref={imageReference}>
+                        <RenderCurrentTemplate
+                          currentTemplate={currentTemplate}
+                          templateConfig={templateConfigData}
+                        />
+                      </div>
                     </div>
                   </Suspense>
                 </div>
                 <div className="text-center md:hidden">
                   <button
                     className="border border-cyan-500 rounded-lg w-48 px-3 py-2 focus:outline-none"
-                    type="submit"
+                    onClick={downloadImage}
                   >
                     Download Image
                   </button>
