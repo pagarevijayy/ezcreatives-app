@@ -1,4 +1,6 @@
 [x] export one image (all screens)
-[ ] export many
-[ ] zip many images
-[ ] replace json by sheet
+[ ] zip and export many [ json and sheet ]
+
+Yaha code fatt ta hai!!
+
+- when u enter the template id manually
