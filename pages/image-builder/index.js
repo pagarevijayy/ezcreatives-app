@@ -64,7 +64,7 @@ const ImageBuilder = () => {
   const [isBrowser, setIsBrowser] = useState(false);
   const [currentTemplate, SetCurrentTemplate] = useState({});
   const [requestedTemplate, SetRequestedTemplate] = useState(
-    "VerticalClippedBottomImage"
+    "SquareClippedTopImage"
   );
   const [templateConfigData, setTemplateConfigData] =
     useState(designTemplateConfig);
@@ -85,6 +85,7 @@ const ImageBuilder = () => {
       subQuote: "African Proverb",
       imageURL: "https://pbs.twimg.com/media/E4FxflGUcA0OBIx.png",
       brandHandle: "@wethesapiens_",
+      mainContentPadding: "px-6",
       quote:
         "Not everyone who chased the zebra caught it, but he who caught it, chased it.",
     },
@@ -131,16 +132,11 @@ const ImageBuilder = () => {
 
     /**@todo: modify/remove this later */
     setTemplateConfigData({
-      subQuote: "in conversation with Neil Patel",
-      // mainContentFontStyles: "",
-      // mainContentPadding: "px-2",
-      // brandHandle: "@wethesapiens_",
-      // subContentFontStyles: "text-xl",
-      imageURL2:
-        "https://pbs.twimg.com/profile_images/829191018331385858/jxsj-ZmD.jpg",
-      imageURL:
-        "https://assets.entrepreneur.com/content/1x1/300/20180118150600-GaryVaynerchuk-Headshot.png",
-      quote: "How Digital Marketing will change in 2021",
+      subQuote: "Sun Tzu",
+      imageURL: "https://pbs.twimg.com/media/Eu-1XoxUcAMhhsb.jpg",
+      brandHandle: "@wethesapiens_",
+      quote:
+        "Victorious warriors win first and then go to war, while defeated warriors go to war first and then seek to win.",
     });
   }, [requestedTemplate]);
 
@@ -512,11 +508,11 @@ const ImageBuilder = () => {
                   <div className="flex flex-col items-center justify-center gap-6">
                     <Suspense fallback={<div>Loading...</div>}>
                       <div
-                        className={
+                        className={`${
                           requestedTemplate.toLowerCase().includes("horizontal")
                             ? "zoom-50"
                             : "zoom-80"
-                        }
+                        } shadow`}
                       >
                         <div ref={imageReference}>
                           <RenderCurrentTemplate
