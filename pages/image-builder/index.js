@@ -70,6 +70,7 @@ const ImageBuilder = () => {
     useState(designTemplateConfig);
 
   const imageReference = useRef(null);
+  const [isMultipleImageMode, setIsMultipleImageMode] = useState(false);
 
   const generateImage = (values) => {
     const trimmedValues = removeEmptyKeys(values);
@@ -147,322 +148,354 @@ const ImageBuilder = () => {
           </div>
         </div>
         <div className="py-4 px-4 text-center max-w-screen-xl mx-auto">
-          <div className="mt-4 inline-block text-xs rounded-lg border border-cyan-500 divide-x overflow-hidden">
+          <div className="mt-4 inline-block select-none cursor-pointer text-xs rounded-lg border border-cyan-500 divide-x overflow-hidden">
             <div
-              className={
-                "py-2 px-4 inline-block" +
-                " " +
-                `bg-cyan-500 text-white font-semibold`
-              }
+              className={`${
+                !isMultipleImageMode
+                  ? "bg-cyan-500 text-white font-semibold"
+                  : ""
+              } py-2 px-4 inline-block`}
+              onClick={() => {
+                setIsMultipleImageMode(false);
+              }}
             >
               single image
             </div>
-            <div className="py-2 px-4 inline-block"> multiple image </div>
+            <div
+              className={`${
+                isMultipleImageMode
+                  ? "bg-cyan-500 text-white font-semibold"
+                  : ""
+              } py-2 px-4 inline-block`}
+              onClick={() => {
+                setIsMultipleImageMode(true);
+              }}
+            >
+              multiple image
+            </div>
           </div>
-          <div className="text-center my-6 md:divide-x md:grid md:grid-cols-2">
-            <div className="">
-              <div className="md:max-w-xs lg:max-w-md mx-auto">
-                <h2 className="text-2xl font-bold">Editor</h2>
-                <div className="mt-4">
-                  <div className="text-left">
-                    <form className="space-y-8" onSubmit={formik.handleSubmit}>
-                      <div className="text-center hidden md:block">
-                        <button
-                          className="w-48 rounded-lg px-3 py-2 border border-cyan-500 focus:outline-none"
-                          type="submit"
-                        >
-                          Generate Image
-                        </button>
-                      </div>
-                      <label className="block">
-                        <span className="text-gray-700">Template ID</span>
-                        <input
-                          type="text"
-                          className=""
-                          placeholder="Enter template id"
-                          onChange={handleTemplateId}
-                        />
-                      </label>
-                      <div className="">
-                        <Disclosure>
-                          {({ open }) => (
-                            <>
-                              <Disclosure.Button
-                                className={`disclosure-btn font-semibold text-gray-700 ${
-                                  open ? "bg-gray-300 bg-opacity-50" : ""
-                                }  `}
-                              >
-                                <span> Modify Content </span>
-                                <ChevronUpIcon
-                                  className={`${
-                                    !open ? "transform rotate-180" : ""
-                                  } w-5 h-5 `}
-                                />
-                              </Disclosure.Button>
-                              <Transition
-                                enter="transition duration-100 ease-out"
-                                enterFrom="transform  scale-0 opacity-0"
-                                enterTo="transform origin-top scale-100 opacity-100"
-                                leave="transition duration-75 ease-out"
-                                leaveFrom="transform scale-100 opacity-100"
-                                leaveTo="transform origin-top scale-0 opacity-0"
-                              >
-                                <Disclosure.Panel>
-                                  <div className="my-6 px-2 max-w-md mx-auto">
-                                    <div className="grid grid-cols-1 gap-6">
-                                      <label className="block">
-                                        <span className="text-gray-700">
-                                          Primary Content (quote)
-                                        </span>
-                                        <textarea
-                                          className=""
-                                          rows="3"
-                                          spellCheck="false"
-                                          name="quote"
-                                          {...formik.getFieldProps("quote")}
-                                        />
-                                      </label>
+          {!isMultipleImageMode && (
+            <div className="text-center my-6 md:divide-x md:grid md:grid-cols-2">
+              <div className="">
+                <div className="md:max-w-xs lg:max-w-md mx-auto">
+                  <h2 className="text-2xl font-bold">Editor</h2>
+                  <div className="mt-4">
+                    <div className="text-left">
+                      <form
+                        className="space-y-8"
+                        onSubmit={formik.handleSubmit}
+                      >
+                        <div className="text-center hidden md:block">
+                          <button
+                            className="w-48 rounded-lg px-3 py-2 border border-cyan-500 focus:outline-none"
+                            type="submit"
+                          >
+                            Generate Image
+                          </button>
+                        </div>
+                        <label className="block">
+                          <span className="text-gray-700">Template ID</span>
+                          <input
+                            type="text"
+                            className=""
+                            placeholder="Enter template id"
+                            onChange={handleTemplateId}
+                          />
+                        </label>
+                        <div className="">
+                          <Disclosure>
+                            {({ open }) => (
+                              <>
+                                <Disclosure.Button
+                                  className={`disclosure-btn font-semibold text-gray-700 ${
+                                    open ? "bg-gray-300 bg-opacity-50" : ""
+                                  }  `}
+                                >
+                                  <span> Modify Content </span>
+                                  <ChevronUpIcon
+                                    className={`${
+                                      !open ? "transform rotate-180" : ""
+                                    } w-5 h-5 `}
+                                  />
+                                </Disclosure.Button>
+                                <Transition
+                                  enter="transition duration-100 ease-out"
+                                  enterFrom="transform  scale-0 opacity-0"
+                                  enterTo="transform origin-top scale-100 opacity-100"
+                                  leave="transition duration-75 ease-out"
+                                  leaveFrom="transform scale-100 opacity-100"
+                                  leaveTo="transform origin-top scale-0 opacity-0"
+                                >
+                                  <Disclosure.Panel>
+                                    <div className="my-6 px-2 max-w-md mx-auto">
+                                      <div className="grid grid-cols-1 gap-6">
+                                        <label className="block">
+                                          <span className="text-gray-700">
+                                            Primary Content (quote)
+                                          </span>
+                                          <textarea
+                                            className=""
+                                            rows="3"
+                                            spellCheck="false"
+                                            name="quote"
+                                            {...formik.getFieldProps("quote")}
+                                          />
+                                        </label>
 
-                                      <label className="block">
-                                        <span className="text-gray-700">
-                                          Secondary Content (sub-quote)
-                                        </span>
-                                        <input
-                                          type="text"
-                                          className=""
-                                          placeholder=""
-                                          name="subQuote"
-                                          {...formik.getFieldProps("subQuote")}
-                                        />
-                                      </label>
+                                        <label className="block">
+                                          <span className="text-gray-700">
+                                            Secondary Content (sub-quote)
+                                          </span>
+                                          <input
+                                            type="text"
+                                            className=""
+                                            placeholder=""
+                                            name="subQuote"
+                                            {...formik.getFieldProps(
+                                              "subQuote"
+                                            )}
+                                          />
+                                        </label>
 
-                                      <label className="block">
-                                        <span className="text-gray-700">
-                                          Primary Image URL
-                                        </span>
-                                        <input
-                                          type="url"
-                                          className=""
-                                          placeholder=""
-                                          name="imageURL"
-                                          {...formik.getFieldProps("imageURL")}
-                                        />
-                                      </label>
+                                        <label className="block">
+                                          <span className="text-gray-700">
+                                            Primary Image URL
+                                          </span>
+                                          <input
+                                            type="url"
+                                            className=""
+                                            placeholder=""
+                                            name="imageURL"
+                                            {...formik.getFieldProps(
+                                              "imageURL"
+                                            )}
+                                          />
+                                        </label>
 
-                                      <label className="block">
-                                        <span className="text-gray-700">
-                                          Brand Handle (if any)
-                                        </span>
-                                        <input
-                                          type="text"
-                                          className=""
-                                          placeholder=""
-                                          name="brandHandle"
-                                          {...formik.getFieldProps(
-                                            "brandHandle"
-                                          )}
-                                        />
-                                      </label>
+                                        <label className="block">
+                                          <span className="text-gray-700">
+                                            Brand Handle (if any)
+                                          </span>
+                                          <input
+                                            type="text"
+                                            className=""
+                                            placeholder=""
+                                            name="brandHandle"
+                                            {...formik.getFieldProps(
+                                              "brandHandle"
+                                            )}
+                                          />
+                                        </label>
 
-                                      <label className="block">
-                                        <span className="text-gray-700">
-                                          Secondary Image URL (if any)
-                                        </span>
-                                        <input
-                                          type="url"
-                                          className=""
-                                          placeholder=""
-                                          name="imageURL2"
-                                          {...formik.getFieldProps("imageURL2")}
-                                        />
-                                      </label>
+                                        <label className="block">
+                                          <span className="text-gray-700">
+                                            Secondary Image URL (if any)
+                                          </span>
+                                          <input
+                                            type="url"
+                                            className=""
+                                            placeholder=""
+                                            name="imageURL2"
+                                            {...formik.getFieldProps(
+                                              "imageURL2"
+                                            )}
+                                          />
+                                        </label>
+                                      </div>
                                     </div>
-                                  </div>
-                                </Disclosure.Panel>
-                              </Transition>
-                            </>
-                          )}
-                        </Disclosure>
-                      </div>
-                      <div className="">
-                        <Disclosure>
-                          {({ open }) => (
-                            <>
-                              <Disclosure.Button
-                                className={`disclosure-btn font-semibold text-gray-700 ${
-                                  open ? "bg-gray-300 bg-opacity-50" : ""
-                                }  `}
-                              >
-                                <span> Modify Template Styles </span>{" "}
-                                <ChevronUpIcon
-                                  className={`${
-                                    !open ? "transform rotate-180" : ""
-                                  } w-5 h-5 `}
-                                />
-                              </Disclosure.Button>
-                              <Transition
-                                enter="transition duration-100 ease-out"
-                                enterFrom="transform  scale-0 opacity-0"
-                                enterTo="transform origin-top scale-100 opacity-100"
-                                leave="transition duration-75 ease-out"
-                                leaveFrom="transform scale-100 opacity-100"
-                                leaveTo="transform origin-top scale-0 opacity-0"
-                              >
-                                <Disclosure.Panel>
-                                  <div className="my-6 px-2 max-w-md mx-auto">
-                                    <div className="grid grid-cols-1 gap-6">
-                                      <label className="block">
-                                        <span className="text-gray-700">
-                                          Padding - Main Content
-                                        </span>
-                                        <input
-                                          type="text"
-                                          className=""
-                                          placeholder=""
-                                          name="mainContentPadding"
-                                          {...formik.getFieldProps(
-                                            "mainContentPadding"
-                                          )}
-                                        />
-                                      </label>
+                                  </Disclosure.Panel>
+                                </Transition>
+                              </>
+                            )}
+                          </Disclosure>
+                        </div>
+                        <div className="">
+                          <Disclosure>
+                            {({ open }) => (
+                              <>
+                                <Disclosure.Button
+                                  className={`disclosure-btn font-semibold text-gray-700 ${
+                                    open ? "bg-gray-300 bg-opacity-50" : ""
+                                  }  `}
+                                >
+                                  <span> Modify Template Styles </span>{" "}
+                                  <ChevronUpIcon
+                                    className={`${
+                                      !open ? "transform rotate-180" : ""
+                                    } w-5 h-5 `}
+                                  />
+                                </Disclosure.Button>
+                                <Transition
+                                  enter="transition duration-100 ease-out"
+                                  enterFrom="transform  scale-0 opacity-0"
+                                  enterTo="transform origin-top scale-100 opacity-100"
+                                  leave="transition duration-75 ease-out"
+                                  leaveFrom="transform scale-100 opacity-100"
+                                  leaveTo="transform origin-top scale-0 opacity-0"
+                                >
+                                  <Disclosure.Panel>
+                                    <div className="my-6 px-2 max-w-md mx-auto">
+                                      <div className="grid grid-cols-1 gap-6">
+                                        <label className="block">
+                                          <span className="text-gray-700">
+                                            Padding - Main Content
+                                          </span>
+                                          <input
+                                            type="text"
+                                            className=""
+                                            placeholder=""
+                                            name="mainContentPadding"
+                                            {...formik.getFieldProps(
+                                              "mainContentPadding"
+                                            )}
+                                          />
+                                        </label>
 
-                                      <label className="block">
-                                        <span className="text-gray-700">
-                                          Font Styles - Main Content
-                                        </span>
-                                        <input
-                                          type="text"
-                                          className=""
-                                          placeholder=""
-                                          name="mainContentFontStyles"
-                                          {...formik.getFieldProps(
-                                            "mainContentFontStyles"
-                                          )}
-                                        />
-                                      </label>
+                                        <label className="block">
+                                          <span className="text-gray-700">
+                                            Font Styles - Main Content
+                                          </span>
+                                          <input
+                                            type="text"
+                                            className=""
+                                            placeholder=""
+                                            name="mainContentFontStyles"
+                                            {...formik.getFieldProps(
+                                              "mainContentFontStyles"
+                                            )}
+                                          />
+                                        </label>
 
-                                      <label className="block">
-                                        <span className="text-gray-700">
-                                          Font Styles - Secondary Content
-                                        </span>
+                                        <label className="block">
+                                          <span className="text-gray-700">
+                                            Font Styles - Secondary Content
+                                          </span>
 
-                                        <input
-                                          type="text"
-                                          className=""
-                                          placeholder=""
-                                          name="subContentFontStyles"
-                                          {...formik.getFieldProps(
-                                            "subContentFontStyles"
-                                          )}
-                                        />
-                                      </label>
+                                          <input
+                                            type="text"
+                                            className=""
+                                            placeholder=""
+                                            name="subContentFontStyles"
+                                            {...formik.getFieldProps(
+                                              "subContentFontStyles"
+                                            )}
+                                          />
+                                        </label>
 
-                                      <label className="block">
-                                        <span className="text-gray-700">
-                                          Background Color
-                                        </span>
+                                        <label className="block">
+                                          <span className="text-gray-700">
+                                            Background Color
+                                          </span>
 
-                                        <input
-                                          type="text"
-                                          className=""
-                                          placeholder=""
-                                          name="bgColorStyles"
-                                          {...formik.getFieldProps(
-                                            "bgColorStyles"
-                                          )}
-                                        />
-                                      </label>
+                                          <input
+                                            type="text"
+                                            className=""
+                                            placeholder=""
+                                            name="bgColorStyles"
+                                            {...formik.getFieldProps(
+                                              "bgColorStyles"
+                                            )}
+                                          />
+                                        </label>
 
-                                      <label className="block">
-                                        <span className="text-gray-700">
-                                          Background Opacity (if any)
-                                        </span>
+                                        <label className="block">
+                                          <span className="text-gray-700">
+                                            Background Opacity (if any)
+                                          </span>
 
-                                        <input
-                                          type="text"
-                                          className=""
-                                          placeholder=""
-                                          name="bgOpacity"
-                                          {...formik.getFieldProps("bgOpacity")}
-                                        />
-                                      </label>
+                                          <input
+                                            type="text"
+                                            className=""
+                                            placeholder=""
+                                            name="bgOpacity"
+                                            {...formik.getFieldProps(
+                                              "bgOpacity"
+                                            )}
+                                          />
+                                        </label>
 
-                                      <label className="block">
-                                        <span className="text-gray-700">
-                                          Font Styles - Brand Handle (if any)
-                                        </span>
+                                        <label className="block">
+                                          <span className="text-gray-700">
+                                            Font Styles - Brand Handle (if any)
+                                          </span>
 
-                                        <input
-                                          type="text"
-                                          className=""
-                                          placeholder=""
-                                          name="brandingFontStyles"
-                                          {...formik.getFieldProps(
-                                            "brandingFontStyles"
-                                          )}
-                                        />
-                                      </label>
+                                          <input
+                                            type="text"
+                                            className=""
+                                            placeholder=""
+                                            name="brandingFontStyles"
+                                            {...formik.getFieldProps(
+                                              "brandingFontStyles"
+                                            )}
+                                          />
+                                        </label>
+                                      </div>
                                     </div>
-                                  </div>
-                                </Disclosure.Panel>
-                              </Transition>
-                            </>
-                          )}
-                        </Disclosure>
+                                  </Disclosure.Panel>
+                                </Transition>
+                              </>
+                            )}
+                          </Disclosure>
+                        </div>
+                        <div className="text-center md:hidden">
+                          <button
+                            className="w-48 rounded-lg px-3 py-2 border border-cyan-500 focus:outline-none"
+                            type="submit"
+                          >
+                            Generate Image
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-8 md:mt-0">
+                <h2 className="text-2xl font-bold">Preview</h2>
+                <div className="mt-4 space-y-8">
+                  <div className="text-center hidden md:block">
+                    <button
+                      className="border border-cyan-500 rounded-lg w-48 px-3 py-2 focus:outline-none"
+                      onClick={downloadImage}
+                    >
+                      Download Image
+                    </button>
+                  </div>
+                  <div className="flex flex-col items-center justify-center gap-6">
+                    <Suspense fallback={<div>Loading...</div>}>
+                      <div
+                        className={
+                          requestedTemplate.toLowerCase().includes("horizontal")
+                            ? "zoom-50"
+                            : "zoom-80"
+                        }
+                      >
+                        <div ref={imageReference}>
+                          <RenderCurrentTemplate
+                            currentTemplate={currentTemplate}
+                            templateConfig={templateConfigData}
+                          />
+                        </div>
                       </div>
-                      <div className="text-center md:hidden">
-                        <button
-                          className="w-48 rounded-lg px-3 py-2 border border-cyan-500 focus:outline-none"
-                          type="submit"
-                        >
-                          Generate Image
-                        </button>
-                      </div>
-                    </form>
+                    </Suspense>
+                  </div>
+                  <div className="text-center md:hidden">
+                    <button
+                      className="border border-cyan-500 rounded-lg w-48 px-3 py-2 focus:outline-none"
+                      onClick={downloadImage}
+                    >
+                      Download Image
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="mt-8 md:mt-0">
-              <h2 className="text-2xl font-bold">Preview</h2>
-              <div className="mt-4 space-y-8">
-                <div className="text-center hidden md:block">
-                  <button
-                    className="border border-cyan-500 rounded-lg w-48 px-3 py-2 focus:outline-none"
-                    onClick={downloadImage}
-                  >
-                    Download Image
-                  </button>
-                </div>
-                <div className="flex flex-col items-center justify-center gap-6">
-                  <Suspense fallback={<div>Loading...</div>}>
-                    <div
-                      className={
-                        requestedTemplate.toLowerCase().includes("horizontal")
-                          ? "zoom-50"
-                          : "zoom-80"
-                      }
-                    >
-                      <div ref={imageReference}>
-                        <RenderCurrentTemplate
-                          currentTemplate={currentTemplate}
-                          templateConfig={templateConfigData}
-                        />
-                      </div>
-                    </div>
-                  </Suspense>
-                </div>
-                <div className="text-center md:hidden">
-                  <button
-                    className="border border-cyan-500 rounded-lg w-48 px-3 py-2 focus:outline-none"
-                    onClick={downloadImage}
-                  >
-                    Download Image
-                  </button>
-                </div>
-              </div>
+          )}
+          {isMultipleImageMode && (
+            <div>
+              <p className="p-5">is multiple image mode</p>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </>
