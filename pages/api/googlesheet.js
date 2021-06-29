@@ -23,10 +23,10 @@ async function initSpreadsheet(docId) {
 }
 
 export default async function handler(req, res) {
+  const googleSheetID = req.query.sheetID;
+
   // Initialize spreadsheet
-  const doc = await initSpreadsheet(
-    "1H8xcZb8kiNEfJ9Stoos8Or3H36LO8-Th92ElC9QeRzM"
-  );
+  const doc = await initSpreadsheet(googleSheetID);
 
   // Select a sheet
   const sheet = doc.sheetsByTitle["ezcreatives_content"];

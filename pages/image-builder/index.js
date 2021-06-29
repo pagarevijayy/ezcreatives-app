@@ -59,7 +59,12 @@ const ImageBuilder = () => {
   const debouncedTemplateID = useRef(
     debounce((id) => {
       SetRequestedTemplate(id);
-    }, 1000)
+    }, 2500)
+  ).current;
+  const debouncedGoogleSheetID = useRef(
+    debounce((id) => {
+      setGoogleSheetId(id);
+    }, 2500)
   ).current;
   const [isBrowser, setIsBrowser] = useState(false);
   const [currentTemplate, SetCurrentTemplate] = useState({});
@@ -98,6 +103,11 @@ const ImageBuilder = () => {
     },
   ]);
 
+  // const [googleSheetId, setGoogleSheetId] = useState(
+  //   "1H8xcZb8kiNEfJ9Stoos8Or3H36LO8-Th92ElC9QeRzM"
+  // );
+
+  const [googleSheetId, setGoogleSheetId] = useState("");
   const [isMultipleImageMode, setIsMultipleImageMode] = useState(false);
 
   const generateImage = (values) => {
@@ -140,6 +150,22 @@ const ImageBuilder = () => {
     });
   }, [requestedTemplate]);
 
+  // useEffect(() => {
+  //   // api call
+  //   fetch(`/api/googlesheet?sheetID=${googleSheetId}`)
+  //     .then((response) => {
+  //       return response.json();
+  //     })
+  //     .then((response) => {
+  //       if (response.success) {
+  //         setMultiImageContent(response?.data?.templateConfigData);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, [googleSheetId]);
+
   useEffect(() => {
     process.nextTick(() => {
       if (globalThis.window ?? false) {
@@ -160,9 +186,21 @@ const ImageBuilder = () => {
 
   const generateMultipleImage = () => {
     console.log("generate multi images...");
-    console.log("multiImageContent", multiImageContent);
+    // console.log("googleSheetId", googleSheetId);
 
-    // set multiImageContent here. (the new array)
+    // api call
+    fetch(`/api/googlesheet?sheetID=${googleSheetId}`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        if (response.success) {
+          setMultiImageContent(response?.data?.templateConfigData);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const downloadMultipleImage = () => {
@@ -181,8 +219,10 @@ const ImageBuilder = () => {
 
   const handleGoogleSheetsURL = (e) => {
     const googleSheetURL = e?.target?.value;
-    console.log("googleSheetURL", googleSheetURL);
-    // debouncedTemplateID(templateValue);
+
+    // console.log("googleSheetURL", googleSheetURL);
+
+    debouncedGoogleSheetID(googleSheetURL);
   };
 
   if (!isBrowser) return null;
