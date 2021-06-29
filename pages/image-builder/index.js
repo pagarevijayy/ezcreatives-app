@@ -179,6 +179,12 @@ const ImageBuilder = () => {
     }
   };
 
+  const handleGoogleSheetsURL = (e) => {
+    const googleSheetURL = e?.target?.value;
+    console.log("googleSheetURL", googleSheetURL);
+    // debouncedTemplateID(templateValue);
+  };
+
   if (!isBrowser) return null;
 
   return (
@@ -558,7 +564,15 @@ const ImageBuilder = () => {
                         onChange={handleTemplateId}
                       />
                     </label>
-
+                    <label className="block">
+                      <span className="text-gray-700">Google Sheets URL</span>
+                      <input
+                        type="text"
+                        className=""
+                        placeholder="Enter google sheets url"
+                        onChange={handleGoogleSheetsURL}
+                      />
+                    </label>
                     <div className="text-center md:hidden">
                       <button
                         className="w-48 rounded-lg px-3 py-2 border border-cyan-500 focus:outline-none"
