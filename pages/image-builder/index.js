@@ -181,7 +181,10 @@ const ImageBuilder = () => {
   };
 
   const downloadImage = () => {
-    downloadFiles(imageReference.current, "atb");
+    // Returns a random integer from 0 to 100:
+    const randomInteger = Math.floor(Math.random() * 101);
+
+    downloadFiles(imageReference.current, `ezcreatives${randomInteger}_`);
   };
 
   const generateMultipleImage = () => {
@@ -195,7 +198,12 @@ const ImageBuilder = () => {
       })
       .then((response) => {
         if (response.success) {
-          setMultiImageContent(response?.data?.templateConfigData);
+          const templateConfigArray = response?.data?.templateConfigData;
+          const trimmedConfigArray = templateConfigArray.map((object) =>
+            removeEmptyKeys(object)
+          );
+          setMultiImageContent(trimmedConfigArray);
+          console.log("multiImageContent", multiImageContent);
         }
       })
       .catch((error) => {
@@ -207,7 +215,10 @@ const ImageBuilder = () => {
     console.log("download multi images...");
 
     multiImageReference.current.forEach((e, i) => {
-      downloadFiles(e, `ezcreatives_${i}`);
+      // Returns a random integer from 0 to 100:
+      const randomInteger = Math.floor(Math.random() * 101);
+
+      downloadFiles(e, `ezcreatives${randomInteger}_${i}`);
     });
   };
 
