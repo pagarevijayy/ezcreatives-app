@@ -1,7 +1,7 @@
-import { lazy, Suspense, useState, useEffect } from "react";
+import { lazy, Suspense, useState, useEffect, Fragment } from "react";
 import { useFormik } from "formik";
-import { Disclosure, Transition } from "@headlessui/react";
-import { ChevronUpIcon } from "@heroicons/react/solid";
+import { Listbox, Disclosure, Transition } from "@headlessui/react";
+import { ChevronUpIcon, CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import { useRef } from "react";
 import debounce from "lodash.debounce";
 import * as htmlToImage from "html-to-image";
@@ -9,6 +9,7 @@ import * as htmlToImage from "html-to-image";
 import {
   designTemplateConfig,
   SampleDefaultData,
+  templateOptions,
 } from "../../constants/template.config";
 
 const importTemplate = (templateName, templateCategory) =>
@@ -59,10 +60,12 @@ const downloadFiles = (element, filename) => {
 };
 
 const ImageBuilder = () => {
+  const [selectedListItem, setSelectedListItem] = useState(templateOptions[0]);
+
   const debouncedTemplateID = useRef(
     debounce((id) => {
       SetRequestedTemplate(id);
-    }, 2500)
+    }, 500)
   ).current;
   const debouncedGoogleSheetID = useRef(
     debounce((id) => {
@@ -72,7 +75,7 @@ const ImageBuilder = () => {
   const [isBrowser, setIsBrowser] = useState(false);
   const [currentTemplate, SetCurrentTemplate] = useState({});
   const [requestedTemplate, SetRequestedTemplate] = useState(
-    "SquareClippedTopImage"
+    templateOptions[0].id
   );
   const [templateConfigData, setTemplateConfigData] =
     useState(designTemplateConfig);
@@ -145,10 +148,9 @@ const ImageBuilder = () => {
     });
   }, []);
 
-  const handleTemplateId = (e) => {
-    const templateValue = e?.target?.value;
-    // console.log("templateValue", templateValue);
-    debouncedTemplateID(templateValue);
+  const handleTemplateId = (selectedValue) => {
+    debouncedTemplateID(selectedValue.id);
+    setSelectedListItem(selectedValue);
   };
 
   const downloadImage = () => {
@@ -214,19 +216,19 @@ const ImageBuilder = () => {
       <div className="min-h-screen font-sans text-gray-800 bg-gray-50 ">
         <div className="header text-center px-12 py-5 shadow-sm">
           <div className="max-w-screen-2xl mx-auto">
-            <p className="font-poppins font-bold text-2xl tracking-wide">
+            <p className="font-poppins font-bold text-2xl tracking-wide select-none cursor-pointer transform transition hover:-translate-y-0.5">
               ez <span className="text-cyan-500 uppercase">Creatives</span>
             </p>
           </div>
         </div>
         <div className="py-4 px-4 text-center max-w-screen-xl mx-auto">
-          <div className="mt-4 select-none text-xs ">
+          <div className="mt-4 select-none text-xs text-gray-900">
             <button
               className={`${
                 !isMultipleImageMode
-                  ? "bg-cyan-500 text-white font-semibold"
-                  : ""
-              } py-2 px-4 inline-block rounded-l-lg border border-cyan-500 outline-none focus:outline-none`}
+                  ? "bg-cyan-500 text-white font-semibold hover:bg-cyan-400 hover:border-cyan-400 active:bg-cyan-600"
+                  : "hover:text-gray-700 hover:border-cyan-400"
+              } py-2 px-4 inline-block rounded-l-lg border border-r-0 border-cyan-500 outline-none focus:outline-none`}
               onClick={() => {
                 setIsMultipleImageMode(false);
               }}
@@ -236,9 +238,9 @@ const ImageBuilder = () => {
             <button
               className={`${
                 isMultipleImageMode
-                  ? "bg-cyan-500 text-white font-semibold"
-                  : ""
-              } py-2 px-4 inline-block rounded-r-lg border border-cyan-500 outline-none focus:outline-none`}
+                  ? "bg-cyan-500 text-white font-semibold hover:bg-cyan-400 hover:border-cyan-400 active:bg-cyan-600"
+                  : "hover:text-gray-700 hover:border-cyan-400"
+              } py-2 px-4 inline-block rounded-r-lg border border-l-0 border-cyan-500 outline-none focus:outline-none`}
               onClick={() => {
                 setIsMultipleImageMode(true);
               }}
@@ -259,28 +261,94 @@ const ImageBuilder = () => {
                       >
                         <div className="text-center hidden md:block">
                           <button
-                            className="w-48 rounded-lg px-3 py-2 border border-cyan-500 focus:outline-none"
+                            className="w-48 rounded-lg px-3 py-2 border border-cyan-600 focus:outline-none text-cyan-600 hover:text-cyan-500 hover:border-cyan-500 active:text-cyan-700 active:border-cyan-700 transform transition hover:-translate-y-0.5"
                             type="submit"
                           >
                             Generate Image
                           </button>
                         </div>
-                        <label className="block">
-                          <span className="text-gray-700">Template ID</span>
-                          <input
-                            type="text"
-                            className=""
-                            placeholder="Enter template id"
-                            onChange={handleTemplateId}
-                          />
-                        </label>
+                        <Listbox
+                          value={selectedListItem}
+                          onChange={handleTemplateId}
+                        >
+                          <div className="relative mt-1">
+                            <Listbox.Label className="font-medium px-1">
+                              Choose a Template
+                            </Listbox.Label>
+                            <Listbox.Button className="relative w-full py-2 pl-3 pr-10 mt-2 text-left bg-white rounded-lg shadow-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-cyan-300 focus-visible:ring-offset-2 focus-visible:border-cyan-500">
+                              <span className="block truncate">
+                                {selectedListItem.name}
+                              </span>
+                              <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                <SelectorIcon
+                                  className="w-5 h-5 text-gray-400"
+                                  aria-hidden="true"
+                                />
+                              </span>
+                            </Listbox.Button>
+                            <Transition
+                              as={Fragment}
+                              leave="transition ease-in duration-100"
+                              leaveFrom="opacity-100"
+                              leaveTo="opacity-0"
+                            >
+                              <Listbox.Options className="absolute z-10 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                                {templateOptions.map(
+                                  (template, templateIdx) => (
+                                    <Listbox.Option
+                                      key={templateIdx}
+                                      className={({ active }) =>
+                                        `${
+                                          active
+                                            ? "text-cyan-900 bg-cyan-100"
+                                            : "text-gray-900"
+                                        }
+                          cursor-default select-none relative py-2 pl-10 pr-4`
+                                      }
+                                      value={template}
+                                    >
+                                      {({ selected, active }) => (
+                                        <>
+                                          <span
+                                            className={`${
+                                              selected
+                                                ? "font-medium"
+                                                : "font-normal"
+                                            } block truncate`}
+                                          >
+                                            {template.name}
+                                          </span>
+                                          {selected ? (
+                                            <span
+                                              className={`${
+                                                active
+                                                  ? "text-cyan-600"
+                                                  : "text-cyan-600"
+                                              }
+                                absolute inset-y-0 left-0 flex items-center pl-3`}
+                                            >
+                                              <CheckIcon
+                                                className="w-5 h-5"
+                                                aria-hidden="true"
+                                              />
+                                            </span>
+                                          ) : null}
+                                        </>
+                                      )}
+                                    </Listbox.Option>
+                                  )
+                                )}
+                              </Listbox.Options>
+                            </Transition>
+                          </div>
+                        </Listbox>
                         <div className="">
                           <Disclosure>
                             {({ open }) => (
                               <>
                                 <Disclosure.Button
-                                  className={`disclosure-btn font-semibold text-gray-700 ${
-                                    open ? "bg-gray-300 bg-opacity-50" : ""
+                                  className={`disclosure-btn font-medium text-gray-700 ${
+                                    open ? "" : ""
                                   }  `}
                                 >
                                   <span> Modify Content </span>
@@ -299,10 +367,10 @@ const ImageBuilder = () => {
                                   leaveTo="transform origin-top scale-0 opacity-0"
                                 >
                                   <Disclosure.Panel>
-                                    <div className="my-6 px-2 max-w-md mx-auto">
+                                    <div className="max-w-md mx-auto my-2 p-4 text-sm bg-white shadow-md rounded-md">
                                       <div className="grid grid-cols-1 gap-6">
-                                        <label className="block">
-                                          <span className="text-gray-700">
+                                        <label className="block ">
+                                          <span className="text-gray-800 hover:text-cyan-800">
                                             Primary Content (quote)
                                           </span>
                                           <textarea
@@ -315,7 +383,7 @@ const ImageBuilder = () => {
                                         </label>
 
                                         <label className="block">
-                                          <span className="text-gray-700">
+                                          <span className="text-gray-800">
                                             Secondary Content (sub-quote)
                                           </span>
                                           <input
@@ -330,7 +398,7 @@ const ImageBuilder = () => {
                                         </label>
 
                                         <label className="block">
-                                          <span className="text-gray-700">
+                                          <span className="text-gray-800">
                                             Primary Image URL
                                           </span>
                                           <input
@@ -345,7 +413,7 @@ const ImageBuilder = () => {
                                         </label>
 
                                         <label className="block">
-                                          <span className="text-gray-700">
+                                          <span className="text-gray-800">
                                             Brand Handle (if any)
                                           </span>
                                           <input
@@ -360,7 +428,7 @@ const ImageBuilder = () => {
                                         </label>
 
                                         <label className="block">
-                                          <span className="text-gray-700">
+                                          <span className="text-gray-800">
                                             Secondary Image URL (if any)
                                           </span>
                                           <input
@@ -386,8 +454,8 @@ const ImageBuilder = () => {
                             {({ open }) => (
                               <>
                                 <Disclosure.Button
-                                  className={`disclosure-btn font-semibold text-gray-700 ${
-                                    open ? "bg-gray-300 bg-opacity-50" : ""
+                                  className={`disclosure-btn font-medium text-gray-700 ${
+                                    open ? "" : ""
                                   }  `}
                                 >
                                   <span> Modify Template Styles </span>{" "}
@@ -406,10 +474,10 @@ const ImageBuilder = () => {
                                   leaveTo="transform origin-top scale-0 opacity-0"
                                 >
                                   <Disclosure.Panel>
-                                    <div className="my-6 px-2 max-w-md mx-auto">
+                                    <div className="max-w-md mx-auto my-2 p-4 text-sm bg-white shadow-md rounded-md">
                                       <div className="grid grid-cols-1 gap-6">
                                         <label className="block">
-                                          <span className="text-gray-700">
+                                          <span className="text-gray-800">
                                             Padding - Main Content
                                           </span>
                                           <input
@@ -424,7 +492,7 @@ const ImageBuilder = () => {
                                         </label>
 
                                         <label className="block">
-                                          <span className="text-gray-700">
+                                          <span className="text-gray-800">
                                             Font Styles - Main Content
                                           </span>
                                           <input
@@ -439,7 +507,7 @@ const ImageBuilder = () => {
                                         </label>
 
                                         <label className="block">
-                                          <span className="text-gray-700">
+                                          <span className="text-gray-800">
                                             Font Styles - Secondary Content
                                           </span>
 
@@ -455,7 +523,7 @@ const ImageBuilder = () => {
                                         </label>
 
                                         <label className="block">
-                                          <span className="text-gray-700">
+                                          <span className="text-gray-800">
                                             Background Color
                                           </span>
 
@@ -471,7 +539,7 @@ const ImageBuilder = () => {
                                         </label>
 
                                         <label className="block">
-                                          <span className="text-gray-700">
+                                          <span className="text-gray-800">
                                             Background Opacity (if any)
                                           </span>
 
@@ -487,7 +555,7 @@ const ImageBuilder = () => {
                                         </label>
 
                                         <label className="block">
-                                          <span className="text-gray-700">
+                                          <span className="text-gray-800">
                                             Font Styles - Brand Handle (if any)
                                           </span>
 
@@ -511,7 +579,7 @@ const ImageBuilder = () => {
                         </div>
                         <div className="text-center md:hidden">
                           <button
-                            className="w-48 rounded-lg px-3 py-2 border border-cyan-500 focus:outline-none"
+                            className="w-48 rounded-lg px-3 py-2 border border-cyan-600 focus:outline-none text-cyan-600 hover:text-cyan-500 hover:border-cyan-500 active:text-cyan-700 active:border-cyan-700 transform transition hover:-translate-y-0.5"
                             type="submit"
                           >
                             Generate Image
@@ -527,7 +595,7 @@ const ImageBuilder = () => {
                 <div className="mt-4 space-y-8">
                   <div className="text-center hidden md:block">
                     <button
-                      className="border border-cyan-500 rounded-lg w-48 px-3 py-2 focus:outline-none"
+                      className="rounded-lg w-48 px-3 py-2 border border-cyan-600 focus:outline-none text-cyan-600 hover:text-cyan-500 hover:border-cyan-500 active:text-cyan-700 active:border-cyan-700 transform transition hover:-translate-y-0.5"
                       onClick={downloadImage}
                     >
                       Download Image
@@ -553,7 +621,7 @@ const ImageBuilder = () => {
                   </div>
                   <div className="text-center md:hidden">
                     <button
-                      className="border border-cyan-500 rounded-lg w-48 px-3 py-2 focus:outline-none"
+                      className="rounded-lg w-48 px-3 py-2 border border-cyan-600 focus:outline-none text-cyan-600 hover:text-cyan-500 hover:border-cyan-500 active:text-cyan-700 active:border-cyan-700 transform transition hover:-translate-y-0.5"
                       onClick={downloadImage}
                     >
                       Download Image
@@ -571,33 +639,97 @@ const ImageBuilder = () => {
                   <div className="mt-4 text-left space-y-8">
                     <div className="text-center hidden md:block">
                       <button
-                        className="w-48 rounded-lg px-3 py-2 border border-cyan-500 focus:outline-none"
+                        className="w-48 rounded-lg px-3 py-2 border border-cyan-600 focus:outline-none text-cyan-600 hover:text-cyan-500 hover:border-cyan-500 active:text-cyan-700 active:border-cyan-700 transform transition hover:-translate-y-0.5"
                         onClick={generateMultipleImage}
                       >
                         Generate Image
                       </button>
                     </div>
+                    <Listbox
+                      value={selectedListItem}
+                      onChange={handleTemplateId}
+                    >
+                      <div className="relative mt-1">
+                        <Listbox.Label className="px-1">
+                          Choose a Template
+                        </Listbox.Label>
+                        <Listbox.Button className="relative w-full py-2 pl-3 pr-10 mt-2 text-left bg-white rounded-lg shadow-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-cyan-300 focus-visible:ring-offset-2 focus-visible:border-cyan-500 sm:text-sm">
+                          <span className="block truncate">
+                            {selectedListItem.name}
+                          </span>
+                          <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                            <SelectorIcon
+                              className="w-5 h-5 text-gray-400"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        </Listbox.Button>
+                        <Transition
+                          as={Fragment}
+                          leave="transition ease-in duration-100"
+                          leaveFrom="opacity-100"
+                          leaveTo="opacity-0"
+                        >
+                          <Listbox.Options className="absolute z-10 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                            {templateOptions.map((template, templateIdx) => (
+                              <Listbox.Option
+                                key={templateIdx}
+                                className={({ active }) =>
+                                  `${
+                                    active
+                                      ? "text-cyan-900 bg-cyan-100"
+                                      : "text-gray-900"
+                                  }
+                          cursor-default select-none relative py-2 pl-10 pr-4`
+                                }
+                                value={template}
+                              >
+                                {({ selected, active }) => (
+                                  <>
+                                    <span
+                                      className={`${
+                                        selected ? "font-medium" : "font-normal"
+                                      } block truncate`}
+                                    >
+                                      {template.name}
+                                    </span>
+                                    {selected ? (
+                                      <span
+                                        className={`${
+                                          active
+                                            ? "text-cyan-600"
+                                            : "text-cyan-600"
+                                        }
+                                absolute inset-y-0 left-0 flex items-center pl-3`}
+                                      >
+                                        <CheckIcon
+                                          className="w-5 h-5"
+                                          aria-hidden="true"
+                                        />
+                                      </span>
+                                    ) : null}
+                                  </>
+                                )}
+                              </Listbox.Option>
+                            ))}
+                          </Listbox.Options>
+                        </Transition>
+                      </div>
+                    </Listbox>
                     <label className="block">
-                      <span className="text-gray-700">Template ID</span>
+                      <span className="px-1 text-gray-700">
+                        Enter Google Sheets ID
+                      </span>
                       <input
                         type="text"
-                        className=""
-                        placeholder="Enter template id"
-                        onChange={handleTemplateId}
-                      />
-                    </label>
-                    <label className="block">
-                      <span className="text-gray-700">Google Sheets URL</span>
-                      <input
-                        type="text"
-                        className=""
-                        placeholder="Enter google sheets url"
+                        className=" bg-white shadow-md focus:bg-white focus:placeholder-gray-400 focus:shadow"
+                        placeholder="google sheets id"
                         onChange={handleGoogleSheetsURL}
                       />
                     </label>
                     <div className="text-center md:hidden">
                       <button
-                        className="w-48 rounded-lg px-3 py-2 border border-cyan-500 focus:outline-none"
+                        className="w-48 rounded-lg px-3 py-2 border border-cyan-600 focus:outline-none text-cyan-600 hover:text-cyan-500 hover:border-cyan-500 active:text-cyan-700 active:border-cyan-700 transform transition hover:-translate-y-0.5"
                         onClick={generateMultipleImage}
                       >
                         Generate Image
@@ -611,7 +743,7 @@ const ImageBuilder = () => {
                 <div className="mt-4 space-y-8">
                   <div className="text-center hidden md:block">
                     <button
-                      className="border border-cyan-500 rounded-lg w-48 px-3 py-2 focus:outline-none"
+                      className="rounded-lg w-48 px-3 py-2 border border-cyan-600 focus:outline-none text-cyan-600 hover:text-cyan-500 hover:border-cyan-500 active:text-cyan-700 active:border-cyan-700 transform transition hover:-translate-y-0.5"
                       onClick={downloadMultipleImage}
                     >
                       Download Image
@@ -644,7 +776,7 @@ const ImageBuilder = () => {
                   </div>
                   <div className="text-center md:hidden">
                     <button
-                      className="border border-cyan-500 rounded-lg w-48 px-3 py-2 focus:outline-none"
+                      className="rounded-lg w-48 px-3 py-2 border border-cyan-600 focus:outline-none text-cyan-600 hover:text-cyan-500 hover:border-cyan-500 active:text-cyan-700 active:border-cyan-700 transform transition hover:-translate-y-0.5"
                       onClick={downloadMultipleImage}
                     >
                       Download Image
