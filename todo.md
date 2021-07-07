@@ -24,3 +24,6 @@
 ---
 
 WRITE HOW TO USE WIKI
+Improve design
+
+- button bg white and shadow

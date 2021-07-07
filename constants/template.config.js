@@ -228,3 +228,20 @@ export const SampleDefaultData = {
     bgOpacity: "",
   },
 };
+
+export const templateOptions = [
+  { name: "Square - Clipped Warrior", id: "SquareClippedTopImage" },
+  { name: "Square - Quote Classic", id: "SquareQuote" },
+  { name: "Square - Twitter Styled", id: "SquareTwitter" },
+  { name: "Square - Wisdom Styled", id: "SquareWisdom" },
+  { name: "Square - Avatar Styled", id: "SquareEncircledTopImage" },
+  { name: "Square - Divided Vertically", id: "SquareRightImage" },
+  { name: "Square - Divided Horizontally", id: "SquareBottomImage" },
+  { name: "Horizontal - Image Razored", id: "HorizontalLeftImage" },
+  { name: "Horizontal - Popped Title", id: "HorizontalPoppedTitle" },
+  { name: "Horizontal - Avatar Styled", id: "HorizontalEncircledRightImage" },
+  { name: "Horizontal - Podcast Guest", id: "HorizontalPodcastGuest" },
+  { name: "Vertical - Avatar Styled", id: "VerticalEncircledBottomImage" },
+  { name: "Vertical - Classic", id: "VerticalBottomImage" },
+  { name: "Vertical - Classic Clipped", id: "VerticalClippedBottomImage" },
+];
