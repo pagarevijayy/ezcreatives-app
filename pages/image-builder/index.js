@@ -216,19 +216,19 @@ const ImageBuilder = () => {
       <div className="min-h-screen font-sans text-gray-800 bg-gray-50 ">
         <div className="header text-center px-12 py-5 shadow-sm">
           <div className="max-w-screen-2xl mx-auto">
-            <p className="font-poppins font-bold text-2xl tracking-wide">
+            <p className="font-poppins font-bold text-2xl tracking-wide select-none cursor-pointer transform transition hover:-translate-y-0.5">
               ez <span className="text-cyan-500 uppercase">Creatives</span>
             </p>
           </div>
         </div>
         <div className="py-4 px-4 text-center max-w-screen-xl mx-auto">
-          <div className="mt-4 select-none text-xs ">
+          <div className="mt-4 select-none text-xs text-gray-900">
             <button
               className={`${
                 !isMultipleImageMode
-                  ? "bg-cyan-500 text-white font-semibold"
-                  : ""
-              } py-2 px-4 inline-block rounded-l-lg border border-cyan-500 outline-none focus:outline-none`}
+                  ? "bg-cyan-500 text-white font-semibold hover:bg-cyan-400 hover:border-cyan-400 active:bg-cyan-600"
+                  : "hover:text-gray-700 hover:border-cyan-400"
+              } py-2 px-4 inline-block rounded-l-lg border border-r-0 border-cyan-500 outline-none focus:outline-none`}
               onClick={() => {
                 setIsMultipleImageMode(false);
               }}
@@ -238,9 +238,9 @@ const ImageBuilder = () => {
             <button
               className={`${
                 isMultipleImageMode
-                  ? "bg-cyan-500 text-white font-semibold"
-                  : ""
-              } py-2 px-4 inline-block rounded-r-lg border border-cyan-500 outline-none focus:outline-none`}
+                  ? "bg-cyan-500 text-white font-semibold hover:bg-cyan-400 hover:border-cyan-400 active:bg-cyan-600"
+                  : "hover:text-gray-700 hover:border-cyan-400"
+              } py-2 px-4 inline-block rounded-r-lg border border-l-0 border-cyan-500 outline-none focus:outline-none`}
               onClick={() => {
                 setIsMultipleImageMode(true);
               }}
@@ -261,7 +261,7 @@ const ImageBuilder = () => {
                       >
                         <div className="text-center hidden md:block">
                           <button
-                            className="w-48 rounded-lg px-3 py-2 border border-cyan-500 focus:outline-none"
+                            className="w-48 rounded-lg px-3 py-2 border border-cyan-600 focus:outline-none text-cyan-600 hover:text-cyan-500 hover:border-cyan-500 active:text-cyan-700 active:border-cyan-700 transform transition hover:-translate-y-0.5"
                             type="submit"
                           >
                             Generate Image
@@ -577,7 +577,7 @@ const ImageBuilder = () => {
                         </div>
                         <div className="text-center md:hidden">
                           <button
-                            className="w-48 rounded-lg px-3 py-2 border border-cyan-500 focus:outline-none"
+                            className="w-48 rounded-lg px-3 py-2 border border-cyan-600 focus:outline-none text-cyan-600 hover:text-cyan-500 hover:border-cyan-500 active:text-cyan-700 active:border-cyan-700 transform transition hover:-translate-y-0.5"
                             type="submit"
                           >
                             Generate Image
@@ -593,7 +593,7 @@ const ImageBuilder = () => {
                 <div className="mt-4 space-y-8">
                   <div className="text-center hidden md:block">
                     <button
-                      className="border border-cyan-500 rounded-lg w-48 px-3 py-2 focus:outline-none"
+                      className="rounded-lg w-48 px-3 py-2 border border-cyan-600 focus:outline-none text-cyan-600 hover:text-cyan-500 hover:border-cyan-500 active:text-cyan-700 active:border-cyan-700 transform transition hover:-translate-y-0.5"
                       onClick={downloadImage}
                     >
                       Download Image
@@ -619,7 +619,7 @@ const ImageBuilder = () => {
                   </div>
                   <div className="text-center md:hidden">
                     <button
-                      className="border border-cyan-500 rounded-lg w-48 px-3 py-2 focus:outline-none"
+                      className="rounded-lg w-48 px-3 py-2 border border-cyan-600 focus:outline-none text-cyan-600 hover:text-cyan-500 hover:border-cyan-500 active:text-cyan-700 active:border-cyan-700 transform transition hover:-translate-y-0.5"
                       onClick={downloadImage}
                     >
                       Download Image
@@ -637,7 +637,7 @@ const ImageBuilder = () => {
                   <div className="mt-4 text-left space-y-8">
                     <div className="text-center hidden md:block">
                       <button
-                        className="w-48 rounded-lg px-3 py-2 border border-cyan-500 focus:outline-none"
+                        className="w-48 rounded-lg px-3 py-2 border border-cyan-600 focus:outline-none text-cyan-600 hover:text-cyan-500 hover:border-cyan-500 active:text-cyan-700 active:border-cyan-700 transform transition hover:-translate-y-0.5"
                         onClick={generateMultipleImage}
                       >
                         Generate Image
@@ -723,7 +723,7 @@ const ImageBuilder = () => {
                     </label>
                     <div className="text-center md:hidden">
                       <button
-                        className="w-48 rounded-lg px-3 py-2 border border-cyan-500 focus:outline-none"
+                        className="w-48 rounded-lg px-3 py-2 border border-cyan-600 focus:outline-none text-cyan-600 hover:text-cyan-500 hover:border-cyan-500 active:text-cyan-700 active:border-cyan-700 transform transition hover:-translate-y-0.5"
                         onClick={generateMultipleImage}
                       >
                         Generate Image
@@ -737,7 +737,7 @@ const ImageBuilder = () => {
                 <div className="mt-4 space-y-8">
                   <div className="text-center hidden md:block">
                     <button
-                      className="border border-cyan-500 rounded-lg w-48 px-3 py-2 focus:outline-none"
+                      className="rounded-lg w-48 px-3 py-2 border border-cyan-600 focus:outline-none text-cyan-600 hover:text-cyan-500 hover:border-cyan-500 active:text-cyan-700 active:border-cyan-700 transform transition hover:-translate-y-0.5"
                       onClick={downloadMultipleImage}
                     >
                       Download Image
@@ -770,7 +770,7 @@ const ImageBuilder = () => {
                   </div>
                   <div className="text-center md:hidden">
                     <button
-                      className="border border-cyan-500 rounded-lg w-48 px-3 py-2 focus:outline-none"
+                      className="rounded-lg w-48 px-3 py-2 border border-cyan-600 focus:outline-none text-cyan-600 hover:text-cyan-500 hover:border-cyan-500 active:text-cyan-700 active:border-cyan-700 transform transition hover:-translate-y-0.5"
                       onClick={downloadMultipleImage}
                     >
                       Download Image
