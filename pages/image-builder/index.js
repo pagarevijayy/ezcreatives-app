@@ -6,7 +6,10 @@ import { useRef } from "react";
 import debounce from "lodash.debounce";
 import * as htmlToImage from "html-to-image";
 
-import { designTemplateConfig } from "../../constants/template.config";
+import {
+  designTemplateConfig,
+  SampleDefaultData,
+} from "../../constants/template.config";
 
 const importTemplate = (templateName, templateCategory) =>
   lazy(() => {
@@ -103,10 +106,6 @@ const ImageBuilder = () => {
     },
   ]);
 
-  // const [googleSheetId, setGoogleSheetId] = useState(
-  //   "1H8xcZb8kiNEfJ9Stoos8Or3H36LO8-Th92ElC9QeRzM"
-  // );
-
   const [googleSheetId, setGoogleSheetId] = useState("");
   const [isMultipleImageMode, setIsMultipleImageMode] = useState(false);
 
@@ -116,22 +115,11 @@ const ImageBuilder = () => {
   };
 
   const formik = useFormik({
-    initialValues: {
-      quote: "",
-      subQuote: "",
-      brandHandle: "",
-      imageURL: "",
-      imageURL2: "",
-      mainContentPadding: "",
-      mainContentFontStyles: "",
-      subContentFontStyles: "",
-      brandingFontStyles: "",
-      bgColorStyles: "",
-      bgOpacity: "",
-    },
+    initialValues: designTemplateConfig,
     onSubmit: generateImage,
   });
 
+  /** Import the required template component with corresponding default values */
   useEffect(() => {
     const templateCategory = determineTemplateCategory(requestedTemplate);
     const ImportedTemplate = importTemplate(
@@ -140,31 +128,14 @@ const ImageBuilder = () => {
     );
     SetCurrentTemplate({ [requestedTemplate]: ImportedTemplate });
 
-    /**@todo: modify/remove this later */
-    setTemplateConfigData({
-      subQuote: "Sun Tzu",
-      imageURL: "https://pbs.twimg.com/media/Eu-1XoxUcAMhhsb.jpg",
-      brandHandle: "@wethesapiens_",
-      quote:
-        "Victorious warriors win first and then go to war, while defeated warriors go to war first and then seek to win.",
+    const sampleData = removeEmptyKeys(SampleDefaultData[requestedTemplate]);
+
+    setTemplateConfigData(sampleData);
+
+    formik.setValues({
+      ...sampleData,
     });
   }, [requestedTemplate]);
-
-  // useEffect(() => {
-  //   // api call
-  //   fetch(`/api/googlesheet?sheetID=${googleSheetId}`)
-  //     .then((response) => {
-  //       return response.json();
-  //     })
-  //     .then((response) => {
-  //       if (response.success) {
-  //         setMultiImageContent(response?.data?.templateConfigData);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, [googleSheetId]);
 
   useEffect(() => {
     process.nextTick(() => {
