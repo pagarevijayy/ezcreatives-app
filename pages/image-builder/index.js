@@ -272,8 +272,10 @@ const ImageBuilder = () => {
                           onChange={handleTemplateId}
                         >
                           <div className="relative mt-1">
-                            <Listbox.Label>Choose a Template</Listbox.Label>
-                            <Listbox.Button className="relative w-full py-2 pl-3 pr-10 mt-2 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-cyan-300 focus-visible:ring-offset-2 focus-visible:border-cyan-500 sm:text-sm">
+                            <Listbox.Label className="font-medium px-1">
+                              Choose a Template
+                            </Listbox.Label>
+                            <Listbox.Button className="relative w-full py-2 pl-3 pr-10 mt-2 text-left bg-white rounded-lg shadow-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-cyan-300 focus-visible:ring-offset-2 focus-visible:border-cyan-500">
                               <span className="block truncate">
                                 {selectedListItem.name}
                               </span>
@@ -345,8 +347,8 @@ const ImageBuilder = () => {
                             {({ open }) => (
                               <>
                                 <Disclosure.Button
-                                  className={`disclosure-btn font-semibold text-gray-700 ${
-                                    open ? "bg-gray-300 bg-opacity-50" : ""
+                                  className={`disclosure-btn font-medium text-gray-700 ${
+                                    open ? "" : ""
                                   }  `}
                                 >
                                   <span> Modify Content </span>
@@ -365,10 +367,10 @@ const ImageBuilder = () => {
                                   leaveTo="transform origin-top scale-0 opacity-0"
                                 >
                                   <Disclosure.Panel>
-                                    <div className="my-6 px-2 max-w-md mx-auto">
+                                    <div className="max-w-md mx-auto my-2 p-4 text-sm bg-white shadow-md rounded-md">
                                       <div className="grid grid-cols-1 gap-6">
-                                        <label className="block">
-                                          <span className="text-gray-700">
+                                        <label className="block ">
+                                          <span className="text-gray-800 hover:text-cyan-800">
                                             Primary Content (quote)
                                           </span>
                                           <textarea
@@ -381,7 +383,7 @@ const ImageBuilder = () => {
                                         </label>
 
                                         <label className="block">
-                                          <span className="text-gray-700">
+                                          <span className="text-gray-800">
                                             Secondary Content (sub-quote)
                                           </span>
                                           <input
@@ -396,7 +398,7 @@ const ImageBuilder = () => {
                                         </label>
 
                                         <label className="block">
-                                          <span className="text-gray-700">
+                                          <span className="text-gray-800">
                                             Primary Image URL
                                           </span>
                                           <input
@@ -411,7 +413,7 @@ const ImageBuilder = () => {
                                         </label>
 
                                         <label className="block">
-                                          <span className="text-gray-700">
+                                          <span className="text-gray-800">
                                             Brand Handle (if any)
                                           </span>
                                           <input
@@ -426,7 +428,7 @@ const ImageBuilder = () => {
                                         </label>
 
                                         <label className="block">
-                                          <span className="text-gray-700">
+                                          <span className="text-gray-800">
                                             Secondary Image URL (if any)
                                           </span>
                                           <input
@@ -452,8 +454,8 @@ const ImageBuilder = () => {
                             {({ open }) => (
                               <>
                                 <Disclosure.Button
-                                  className={`disclosure-btn font-semibold text-gray-700 ${
-                                    open ? "bg-gray-300 bg-opacity-50" : ""
+                                  className={`disclosure-btn font-medium text-gray-700 ${
+                                    open ? "" : ""
                                   }  `}
                                 >
                                   <span> Modify Template Styles </span>{" "}
@@ -472,10 +474,10 @@ const ImageBuilder = () => {
                                   leaveTo="transform origin-top scale-0 opacity-0"
                                 >
                                   <Disclosure.Panel>
-                                    <div className="my-6 px-2 max-w-md mx-auto">
+                                    <div className="max-w-md mx-auto my-2 p-4 text-sm bg-white shadow-md rounded-md">
                                       <div className="grid grid-cols-1 gap-6">
                                         <label className="block">
-                                          <span className="text-gray-700">
+                                          <span className="text-gray-800">
                                             Padding - Main Content
                                           </span>
                                           <input
@@ -490,7 +492,7 @@ const ImageBuilder = () => {
                                         </label>
 
                                         <label className="block">
-                                          <span className="text-gray-700">
+                                          <span className="text-gray-800">
                                             Font Styles - Main Content
                                           </span>
                                           <input
@@ -505,7 +507,7 @@ const ImageBuilder = () => {
                                         </label>
 
                                         <label className="block">
-                                          <span className="text-gray-700">
+                                          <span className="text-gray-800">
                                             Font Styles - Secondary Content
                                           </span>
 
@@ -521,7 +523,7 @@ const ImageBuilder = () => {
                                         </label>
 
                                         <label className="block">
-                                          <span className="text-gray-700">
+                                          <span className="text-gray-800">
                                             Background Color
                                           </span>
 
@@ -537,7 +539,7 @@ const ImageBuilder = () => {
                                         </label>
 
                                         <label className="block">
-                                          <span className="text-gray-700">
+                                          <span className="text-gray-800">
                                             Background Opacity (if any)
                                           </span>
 
@@ -553,7 +555,7 @@ const ImageBuilder = () => {
                                         </label>
 
                                         <label className="block">
-                                          <span className="text-gray-700">
+                                          <span className="text-gray-800">
                                             Font Styles - Brand Handle (if any)
                                           </span>
 
@@ -648,8 +650,10 @@ const ImageBuilder = () => {
                       onChange={handleTemplateId}
                     >
                       <div className="relative mt-1">
-                        <Listbox.Label>Choose a Template</Listbox.Label>
-                        <Listbox.Button className="relative w-full py-2 pl-3 pr-10 mt-2 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-cyan-300 focus-visible:ring-offset-2 focus-visible:border-cyan-500 sm:text-sm">
+                        <Listbox.Label className="px-1">
+                          Choose a Template
+                        </Listbox.Label>
+                        <Listbox.Button className="relative w-full py-2 pl-3 pr-10 mt-2 text-left bg-white rounded-lg shadow-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-cyan-300 focus-visible:ring-offset-2 focus-visible:border-cyan-500 sm:text-sm">
                           <span className="block truncate">
                             {selectedListItem.name}
                           </span>
@@ -713,11 +717,13 @@ const ImageBuilder = () => {
                       </div>
                     </Listbox>
                     <label className="block">
-                      <span className="text-gray-700">Google Sheets URL</span>
+                      <span className="px-1 text-gray-700">
+                        Enter Google Sheets ID
+                      </span>
                       <input
                         type="text"
-                        className=""
-                        placeholder="Enter google sheets url"
+                        className=" bg-white shadow-md focus:bg-white focus:placeholder-gray-400 focus:shadow"
+                        placeholder="google sheets id"
                         onChange={handleGoogleSheetsURL}
                       />
                     </label>

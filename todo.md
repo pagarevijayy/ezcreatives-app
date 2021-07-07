@@ -18,12 +18,4 @@
 
 ---
 
-1. update default data in all templates
-2. swap input with list (select option) for template ID
-
----
-
-WRITE HOW TO USE WIKI
-Improve design
-
-- button bg white and shadow
+1. WRITE HOW TO USE WIKI
