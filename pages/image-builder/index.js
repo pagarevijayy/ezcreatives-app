@@ -5,6 +5,7 @@ import { ChevronUpIcon, CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import { useRef } from "react";
 import debounce from "lodash.debounce";
 import * as htmlToImage from "html-to-image";
+import Image from "next/image";
 
 import {
   designTemplateConfig,
@@ -84,30 +85,7 @@ const ImageBuilder = () => {
   const multiImageReference = useRef(null);
   multiImageReference.current = [];
 
-  const [multiImageContent, setMultiImageContent] = useState([
-    {
-      subQuote: "Sun Tzu",
-      imageURL: "https://pbs.twimg.com/media/Eu-1XoxUcAMhhsb.jpg",
-      brandHandle: "@wethesapiens_",
-      quote:
-        "Victorious warriors win first and then go to war, while defeated warriors go to war first and then seek to win.",
-    },
-    {
-      subQuote: "African Proverb",
-      imageURL: "https://pbs.twimg.com/media/E4FxflGUcA0OBIx.png",
-      brandHandle: "@wethesapiens_",
-      mainContentPadding: "px-6",
-      quote:
-        "Not everyone who chased the zebra caught it, but he who caught it, chased it.",
-    },
-    {
-      subQuote: "Thích Nhat Hanh",
-      imageURL: "https://pbs.twimg.com/media/E4F6PcRUcBMVMKm.png",
-      quote:
-        "For things to reveal themselves to us, we need to be ready to abandon our views about them.",
-      brandHandle: "@wethesapiens_",
-    },
-  ]);
+  const [multiImageContent, setMultiImageContent] = useState([]);
 
   const [googleSheetId, setGoogleSheetId] = useState("");
   const [isMultipleImageMode, setIsMultipleImageMode] = useState(false);
@@ -163,6 +141,7 @@ const ImageBuilder = () => {
   const generateMultipleImage = () => {
     console.log("generate multi images...");
     // console.log("googleSheetId", googleSheetId);
+    if (!googleSheetId) return;
 
     // api call
     fetch(`/api/googlesheet?sheetID=${googleSheetId}`)
@@ -751,27 +730,43 @@ const ImageBuilder = () => {
                   </div>
                   <div className="flex flex-col items-center justify-center gap-6">
                     <Suspense fallback={<div>Loading...</div>}>
-                      {multiImageContent.map((imageConfigData, index) => {
-                        return (
-                          <div
-                            key={`image_${index}`}
-                            className={`${
-                              requestedTemplate
-                                .toLowerCase()
-                                .includes("horizontal")
-                                ? "zoom-50"
-                                : "zoom-80"
-                            } shadow`}
-                          >
-                            <div ref={addToMultiImageReference}>
-                              <RenderCurrentTemplate
-                                currentTemplate={currentTemplate}
-                                templateConfig={imageConfigData}
-                              />
+                      {multiImageContent.length == 0 && (
+                        <div className="mt-4">
+                          <figure>
+                            <Image
+                              width="280"
+                              height="140"
+                              src="/images/undraw_Optimize_image_re_3tb1.svg"
+                              alt="connect google sheets"
+                            />
+                          </figure>
+                          <p className="mt-6 text-sm text-cyan-800">
+                            please make sure the google sheet is connected
+                          </p>
+                        </div>
+                      )}
+                      {multiImageContent.length > 0 &&
+                        multiImageContent.map((imageConfigData, index) => {
+                          return (
+                            <div
+                              key={`image_${index}`}
+                              className={`${
+                                requestedTemplate
+                                  .toLowerCase()
+                                  .includes("horizontal")
+                                  ? "zoom-50"
+                                  : "zoom-80"
+                              } shadow`}
+                            >
+                              <div ref={addToMultiImageReference}>
+                                <RenderCurrentTemplate
+                                  currentTemplate={currentTemplate}
+                                  templateConfig={imageConfigData}
+                                />
+                              </div>
                             </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
                     </Suspense>
                   </div>
                   <div className="text-center md:hidden">

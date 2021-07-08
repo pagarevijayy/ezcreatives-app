@@ -18,4 +18,5 @@
 
 ---
 
-1. WRITE HOW TO USE WIKI
+1. Solve the download and Hang Issue (zip multiple)
+2. Write wiki
