@@ -1,11 +1,22 @@
-import { lazy, Suspense, useState, useEffect, Fragment } from "react";
+import {
+  Fragment,
+  lazy,
+  Suspense,
+  useState,
+  useEffect,
+  useRef,
+  createRef,
+} from "react";
+import Image from "next/image";
+
 import { useFormik } from "formik";
+import * as htmlToImage from "html-to-image";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
+import debounce from "lodash.debounce";
+
 import { Listbox, Disclosure, Transition } from "@headlessui/react";
 import { ChevronUpIcon, CheckIcon, SelectorIcon } from "@heroicons/react/solid";
-import { useRef } from "react";
-import debounce from "lodash.debounce";
-import * as htmlToImage from "html-to-image";
-import Image from "next/image";
 
 import {
   designTemplateConfig,
@@ -46,18 +57,60 @@ const removeEmptyKeys = (obj) => {
   return Object.fromEntries(Object.entries(obj).filter(([_, v]) => !!v));
 };
 
-const downloadFiles = (element, filename) => {
-  htmlToImage
-    .toPng(element, {
-      pixelRatio: 3,
+const downloadFiles = async (element, filename) => {
+  console.log("awaiting...");
+  const startMeasuring = performance.now();
+
+  const dataURL = await htmlToImage.toPng(element, { pixelRatio: 3 });
+
+  const stopMeasuring = performance.now();
+  console.log("image ready after:", stopMeasuring - startMeasuring, "ms");
+
+  let a = document.createElement("a");
+  a.href = dataURL;
+  a.download = filename;
+  a.click();
+  console.log("downloaded - ", filename);
+};
+
+const convertHtmlRefArrayToImageArray = (htmlReferenceArray) => {
+  return Promise.all(
+    htmlReferenceArray.map(async (element) => {
+      const imgData = await htmlToImage.toPng(element.current, {
+        pixelRatio: 3,
+      });
+      return imgData;
     })
-    .then(function (dataUrl) {
-      let a = document.createElement("a");
-      a.href = dataUrl;
-      a.download = filename;
-      a.click();
-      console.log("downloading...", filename);
+  );
+};
+
+const getRandomInteger = () => {
+  // Returns a random integer from 0 to 100:
+  return Math.floor(Math.random() * 101);
+};
+
+const zipDownloadImages = async (htmlReferenceArray) => {
+  const zip = new JSZip();
+  console.log("awaiting...");
+  const startMeasuring = performance.now();
+
+  const imageArray = await convertHtmlRefArrayToImageArray(htmlReferenceArray);
+
+  const stopMeasuring = performance.now();
+
+  console.log("images ready after: ", stopMeasuring - startMeasuring, "ms");
+
+  imageArray.forEach((imgData, i) => {
+    const extractedDataURL = imgData.split("base64,")[1];
+    zip.file(`ezcreatives${getRandomInteger()}_${i}.png`, extractedDataURL, {
+      base64: true,
     });
+  });
+
+  const zippedFile = await zip.generateAsync({ type: "blob" });
+  saveAs(zippedFile, `ezcreatives${getRandomInteger()}_.zip`);
+
+  console.log("zip file downloaded!");
 };
 
 const ImageBuilder = () => {
@@ -71,7 +124,7 @@ const ImageBuilder = () => {
   const debouncedGoogleSheetID = useRef(
     debounce((id) => {
       setGoogleSheetId(id);
-    }, 2500)
+    }, 500)
   ).current;
   const [isBrowser, setIsBrowser] = useState(false);
   const [currentTemplate, SetCurrentTemplate] = useState({});
@@ -81,11 +134,14 @@ const ImageBuilder = () => {
   const [templateConfigData, setTemplateConfigData] =
     useState(designTemplateConfig);
 
-  const imageReference = useRef(null);
-  const multiImageReference = useRef(null);
-  multiImageReference.current = [];
-
   const [multiImageContent, setMultiImageContent] = useState([]);
+
+  const imageReference = useRef(null);
+  const multiImageReference = useRef([]);
+  multiImageReference.current = multiImageContent.map(
+    (e, i) => multiImageReference.current[i] ?? createRef()
+  );
+  // console.log("null referencing...");
 
   const [googleSheetId, setGoogleSheetId] = useState("");
   const [isMultipleImageMode, setIsMultipleImageMode] = useState(false);
@@ -143,6 +199,8 @@ const ImageBuilder = () => {
     // console.log("googleSheetId", googleSheetId);
     if (!googleSheetId) return;
 
+    /**@todo: don't call api if data was previously available and sheet id hasn't changed */
+
     // api call
     fetch(`/api/googlesheet?sheetID=${googleSheetId}`)
       .then((response) => {
@@ -155,7 +213,7 @@ const ImageBuilder = () => {
             removeEmptyKeys(object)
           );
           setMultiImageContent(trimmedConfigArray);
-          console.log("multiImageContent", multiImageContent);
+          // console.log("multiImageContent", multiImageContent);
         }
       })
       .catch((error) => {
@@ -166,18 +224,10 @@ const ImageBuilder = () => {
   const downloadMultipleImage = () => {
     console.log("download multi images...");
 
-    multiImageReference.current.forEach((e, i) => {
-      // Returns a random integer from 0 to 100:
-      const randomInteger = Math.floor(Math.random() * 101);
+    /** @todo Show pop up if google sheet ain't connected and there are no  htmlref*/
+    if (multiImageReference.current.length == 0) return;
 
-      downloadFiles(e, `ezcreatives${randomInteger}_${i}`);
-    });
-  };
-
-  const addToMultiImageReference = (element) => {
-    if (element && !multiImageReference.current.includes(element)) {
-      multiImageReference.current.push(element);
-    }
+    zipDownloadImages(multiImageReference.current);
   };
 
   const handleGoogleSheetsURL = (e) => {
@@ -758,7 +808,7 @@ const ImageBuilder = () => {
                                   : "zoom-80"
                               } shadow`}
                             >
-                              <div ref={addToMultiImageReference}>
+                              <div ref={multiImageReference.current[index]}>
                                 <RenderCurrentTemplate
                                   currentTemplate={currentTemplate}
                                   templateConfig={imageConfigData}

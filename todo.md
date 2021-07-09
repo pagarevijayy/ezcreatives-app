@@ -18,5 +18,6 @@
 
 ---
 
-1. Solve the download and Hang Issue (zip multiple)
-2. Write wiki
+1. Write wiki
+2. Solve the download and Hang Issue (zip multiple)
+3. Clear sphaghetti code (tech debt)
