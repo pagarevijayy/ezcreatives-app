@@ -18,4 +18,6 @@
 
 ---
 
-1. WRITE HOW TO USE WIKI
+1. Write wiki
+2. Solve the download and Hang Issue (zip multiple)
+3. Clear sphaghetti code (tech debt)
