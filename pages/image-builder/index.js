@@ -25,6 +25,8 @@ import {
   templateOptions,
 } from "../../constants/template.config";
 
+import RenderCurrentTemplate from "../../components/render-template";
+
 const importTemplate = (templateName, templateCategory) =>
   lazy(() => {
     return import(`../../lib/templates/${templateCategory}-designs`).then(
@@ -33,12 +35,6 @@ const importTemplate = (templateName, templateCategory) =>
       })
     );
   });
-
-const RenderCurrentTemplate = ({ currentTemplate, templateConfig }) => {
-  return Object.values(currentTemplate).map((Template, index) => (
-    <Template key={`${index}`} templateData={templateConfig} />
-  ));
-};
 
 const determineTemplateCategory = (templateName) => {
   if (templateName.toLowerCase().includes("square")) {
