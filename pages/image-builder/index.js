@@ -11,9 +11,7 @@ import Image from "next/image";
 import Head from "next/head";
 
 import { useFormik } from "formik";
-import * as htmlToImage from "html-to-image";
-import JSZip from "jszip";
-import { saveAs } from "file-saver";
+
 import debounce from "lodash.debounce";
 
 import { Listbox, Disclosure, Transition } from "@headlessui/react";
@@ -28,6 +26,11 @@ import {
 import RenderCurrentTemplate from "../../components/render-template";
 
 import { removeEmptyKeys, getRandomInteger } from "../../lib/utils";
+import {
+  determineTemplateCategory,
+  downloadSingleFile,
+  zipDownloadImages,
+} from "../../lib/helpers";
 
 const importTemplate = (templateName, templateCategory) =>
   lazy(() => {
@@ -37,71 +40,6 @@ const importTemplate = (templateName, templateCategory) =>
       })
     );
   });
-
-const determineTemplateCategory = (templateName) => {
-  if (templateName.toLowerCase().includes("square")) {
-    return "square";
-  }
-
-  if (templateName.toLowerCase().includes("horizontal")) {
-    return "horizontal";
-  }
-
-  if (templateName.toLowerCase().includes("vertical")) {
-    return "vertical";
-  }
-};
-
-const downloadFiles = async (element, filename) => {
-  console.log("awaiting...");
-  const startMeasuring = performance.now();
-
-  const dataURL = await htmlToImage.toPng(element, { pixelRatio: 3 });
-
-  const stopMeasuring = performance.now();
-  console.log("image ready after:", stopMeasuring - startMeasuring, "ms");
-
-  let a = document.createElement("a");
-  a.href = dataURL;
-  a.download = filename;
-  a.click();
-  console.log("downloaded - ", filename);
-};
-
-const convertHtmlRefArrayToImageArray = (htmlReferenceArray) => {
-  return Promise.all(
-    htmlReferenceArray.map(async (element) => {
-      const imgData = await htmlToImage.toPng(element.current, {
-        pixelRatio: 3,
-      });
-      return imgData;
-    })
-  );
-};
-
-const zipDownloadImages = async (htmlReferenceArray) => {
-  const zip = new JSZip();
-  console.log("awaiting...");
-  const startMeasuring = performance.now();
-
-  const imageArray = await convertHtmlRefArrayToImageArray(htmlReferenceArray);
-
-  const stopMeasuring = performance.now();
-
-  console.log("images ready after: ", stopMeasuring - startMeasuring, "ms");
-
-  imageArray.forEach((imgData, i) => {
-    const extractedDataURL = imgData.split("base64,")[1];
-    zip.file(`ezcreatives${getRandomInteger()}_${i}.png`, extractedDataURL, {
-      base64: true,
-    });
-  });
-
-  const zippedFile = await zip.generateAsync({ type: "blob" });
-  saveAs(zippedFile, `ezcreatives${getRandomInteger()}_.zip`);
-
-  console.log("zip file downloaded!");
-};
 
 const ImageBuilder = () => {
   const [selectedListItem, setSelectedListItem] = useState(templateOptions[0]);
@@ -178,10 +116,10 @@ const ImageBuilder = () => {
   };
 
   const downloadImage = () => {
-    // Returns a random integer from 0 to 100:
-    const randomInteger = Math.floor(Math.random() * 101);
-
-    downloadFiles(imageReference.current, `ezcreatives${randomInteger}_`);
+    downloadSingleFile(
+      imageReference.current,
+      `ezcreatives${getRandomInteger()}_`
+    );
   };
 
   const generateMultipleImage = () => {
