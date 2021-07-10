@@ -27,6 +27,8 @@ import {
 
 import RenderCurrentTemplate from "../../components/render-template";
 
+import { removeEmptyKeys, getRandomInteger } from "../../lib/utils";
+
 const importTemplate = (templateName, templateCategory) =>
   lazy(() => {
     return import(`../../lib/templates/${templateCategory}-designs`).then(
@@ -48,10 +50,6 @@ const determineTemplateCategory = (templateName) => {
   if (templateName.toLowerCase().includes("vertical")) {
     return "vertical";
   }
-};
-
-const removeEmptyKeys = (obj) => {
-  return Object.fromEntries(Object.entries(obj).filter(([_, v]) => !!v));
 };
 
 const downloadFiles = async (element, filename) => {
@@ -79,11 +77,6 @@ const convertHtmlRefArrayToImageArray = (htmlReferenceArray) => {
       return imgData;
     })
   );
-};
-
-const getRandomInteger = () => {
-  // Returns a random integer from 0 to 100:
-  return Math.floor(Math.random() * 101);
 };
 
 const zipDownloadImages = async (htmlReferenceArray) => {
