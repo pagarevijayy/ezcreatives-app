@@ -8,6 +8,7 @@ import {
   createRef,
 } from "react";
 import Image from "next/image";
+import Head from "next/head";
 
 import { useFormik } from "formik";
 import * as htmlToImage from "html-to-image";
@@ -242,6 +243,9 @@ const ImageBuilder = () => {
 
   return (
     <>
+      <Head>
+        <title> ezCreatives - Image Builder </title>
+      </Head>
       <div className="min-h-screen font-sans text-gray-800 bg-gray-50 ">
         <div className="header text-center px-12 py-5 shadow-sm">
           <div className="max-w-screen-2xl mx-auto">

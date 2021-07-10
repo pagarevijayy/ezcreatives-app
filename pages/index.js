@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <Head>
-        <title>ezCreatives - Image Builder</title>
+        <title>ezCreatives - Image Builder </title>
       </Head>
       Goto Image-Builder.
     </div>
