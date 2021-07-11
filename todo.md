@@ -2,8 +2,7 @@
 
 clean code
 
-- [ ] create a separate lib functions
-- [ ] separate components
-- [ ] split views
-- [ ] separate route for separate views?
+- [x] create a separate lib functions
+- [x] separate components
+- [ ] split views - single and multi views (into components and pages)
 - [ ] head and title
