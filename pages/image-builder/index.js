@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Meta from "../../components/meta";
+import Header from "../../components/header";
 
 import SingleImageMode from "../../components/single-img-mode";
 import MultiImageMode from "../../components/multi-img-mode";
@@ -22,15 +22,8 @@ const ImageBuilder = () => {
 
   return (
     <>
-      <Meta />
       <div className="min-h-screen font-sans text-gray-800 bg-gray-50 ">
-        <div className="header text-center px-12 py-5 shadow-sm">
-          <div className="max-w-screen-2xl mx-auto">
-            <p className="font-poppins font-bold text-2xl tracking-wide select-none cursor-pointer transform transition hover:-translate-y-0.5">
-              ez <span className="text-cyan-500 uppercase">Creatives</span>
-            </p>
-          </div>
-        </div>
+        <Header />
         <div className="py-4 px-4 text-center max-w-screen-xl mx-auto">
           <div className="mt-4 select-none text-xs text-gray-900">
             <button
