@@ -1,3 +1,4 @@
+/** Config that needs to be passed in the design templates */
 export const designTemplateConfig = {
   quote: "",
   subQuote: "",
@@ -12,6 +13,7 @@ export const designTemplateConfig = {
   bgOpacity: "",
 };
 
+/** Prefill the template with the following sample data */
 export const SampleDefaultData = {
   // horizontal templates
   HorizontalLeftImage: {
@@ -229,6 +231,10 @@ export const SampleDefaultData = {
   },
 };
 
+/** Shown in 'Choose a Template' drop-down
+ *  name - Human readable name
+ *  id - Component name in the code
+ */
 export const templateOptions = [
   { name: "Square - Clipped Warrior", id: "SquareClippedTopImage" },
   { name: "Square - Quote Classic", id: "SquareQuote" },

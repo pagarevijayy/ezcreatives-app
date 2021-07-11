@@ -1,23 +1,9 @@
 **Local todo**
-(use it for logic breakdown and other immediate stuff while programming)
 
-//single view
+clean code
 
-1. SetRequestedTemplate (default template via select option)
-2. setTemplateConfigData (default values)
-3. Generate Image (trims data before setting)
-4. Prefill form - use formik object
-5. useEffect to
-   1. import and set template
-   2. give default config data
-
-//multi image view
-
-1. Requested template sample
-2. setMultiImageContent (default values)
-
----
-
-1. Write wiki
-2. Solve the download and Hang Issue (zip multiple)
-3. Clear sphaghetti code (tech debt)
+- [x] create a separate lib functions
+- [x] separate components
+- [x] split views - single and multi views
+- [x] head and title
+- [ ] separate pages
