@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Head from "next/head";
+import Meta from "../../components/meta";
 
 import SingleImageMode from "../../components/single-img-mode";
 import MultiImageMode from "../../components/multi-img-mode";
@@ -22,9 +22,7 @@ const ImageBuilder = () => {
 
   return (
     <>
-      <Head>
-        <title> ezCreatives - Image Builder </title>
-      </Head>
+      <Meta />
       <div className="min-h-screen font-sans text-gray-800 bg-gray-50 ">
         <div className="header text-center px-12 py-5 shadow-sm">
           <div className="max-w-screen-2xl mx-auto">
