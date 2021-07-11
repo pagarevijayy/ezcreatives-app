@@ -1,31 +1,18 @@
-import { useState, useEffect } from "react";
-import Header from "../../components/header";
+import { useState } from "react";
+import Link from "next/link";
 
-import SingleImageMode from "../../components/single-img-mode";
-import MultiImageMode from "../../components/multi-img-mode";
+import Header from "../components/header";
 
-const ImageBuilder = () => {
-  const [isBrowser, setIsBrowser] = useState(false);
-
-  const [isMultipleImageMode, setIsMultipleImageMode] = useState(false);
-
-  /** Make sure the app is running on the browser and not server (for lazy import implementation) */
-  useEffect(() => {
-    process.nextTick(() => {
-      if (globalThis.window ?? false) {
-        setIsBrowser(true);
-      }
-    });
-  }, []);
-
-  if (!isBrowser) return null;
+const PrimaryLayout = ({ setMultipleImageMode, children }) => {
+  const [isMultipleImageMode, setIsMultipleImageMode] =
+    useState(setMultipleImageMode);
 
   return (
-    <>
-      <div className="min-h-screen font-sans text-gray-800 bg-gray-50 ">
-        <Header />
-        <div className="py-4 px-4 text-center max-w-screen-xl mx-auto">
-          <div className="mt-4 select-none text-xs text-gray-900">
+    <div className="min-h-screen font-sans text-gray-800 bg-gray-50 ">
+      <Header />
+      <div className="py-4 px-4 text-center max-w-screen-xl mx-auto">
+        <div className="mt-4 select-none text-xs text-gray-900">
+          <Link href="/image-builder/single-mode">
             <button
               className={`${
                 !isMultipleImageMode
@@ -38,6 +25,8 @@ const ImageBuilder = () => {
             >
               single image
             </button>
+          </Link>
+          <Link href="/image-builder/multi-mode">
             <button
               className={`${
                 isMultipleImageMode
@@ -50,13 +39,12 @@ const ImageBuilder = () => {
             >
               multiple image
             </button>
-          </div>
-          {!isMultipleImageMode && <SingleImageMode />}
-          {isMultipleImageMode && <MultiImageMode />}
+          </Link>
         </div>
+        {children}
       </div>
-    </>
+    </div>
   );
 };
 
-export default ImageBuilder;
+export default PrimaryLayout;

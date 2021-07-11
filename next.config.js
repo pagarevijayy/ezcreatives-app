@@ -3,7 +3,12 @@ module.exports = {
     return [
       {
         source: "/",
-        destination: "/image-builder",
+        destination: "/image-builder/single-mode",
+        permanent: true,
+      },
+      {
+        source: "/image-builder",
+        destination: "/image-builder/single-mode",
         permanent: true,
       },
     ];
