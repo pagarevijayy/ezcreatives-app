@@ -1,12 +1,4 @@
-import {
-  Fragment,
-  lazy,
-  Suspense,
-  useState,
-  useEffect,
-  useRef,
-  createRef,
-} from "react";
+import { Fragment, lazy, Suspense, useState, useEffect, useRef } from "react";
 
 import { useFormik } from "formik";
 
@@ -20,6 +12,8 @@ import {
   SampleDefaultData,
   templateOptions,
 } from "../constants/template.config";
+
+import { WIKI } from "../constants/core";
 
 import RenderCurrentTemplate from "./render-template";
 import { removeEmptyKeys, getRandomInteger } from "../lib/utils";
@@ -90,6 +84,7 @@ const SingleImageMode = () => {
       imageReference.current,
       `ezcreatives${getRandomInteger()}_`
     );
+    /** @todo: Notify using toast the image is downloaded */
   };
 
   return (
@@ -397,6 +392,17 @@ const SingleImageMode = () => {
                     )}
                   </Disclosure>
                 </div>
+                <div className="text-center">
+                  <a
+                    href={WIKI.gettingStartedSingleMode}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs underline cursor-pointer text-cyan-700 hover:text-cyan-500 
+                focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-cyan-500"
+                  >
+                    Need Help Getting Started?
+                  </a>
+                </div>
                 <div className="text-center md:hidden">
                   <button
                     className="w-48 rounded-lg px-3 py-2 border border-cyan-600 focus:outline-none text-cyan-600 hover:text-cyan-500 hover:border-cyan-500 active:text-cyan-700 active:border-cyan-700 transform transition hover:-translate-y-0.5"
@@ -415,7 +421,7 @@ const SingleImageMode = () => {
         <div className="mt-4 space-y-8">
           <div className="text-center hidden md:block">
             <button
-              className="rounded-lg w-48 px-3 py-2 border border-cyan-600 focus:outline-none text-cyan-600 hover:text-cyan-500 hover:border-cyan-500 active:text-cyan-700 active:border-cyan-700 transform transition hover:-translate-y-0.5"
+              className={`rounded-lg w-48 px-3 py-2 border border-cyan-600 focus:outline-none text-cyan-600 hover:text-cyan-500 hover:border-cyan-500 active:text-cyan-700 active:border-cyan-700 transform transition hover:-translate-y-0.5 `}
               onClick={downloadImage}
             >
               Download Image
