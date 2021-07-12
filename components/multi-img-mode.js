@@ -20,6 +20,8 @@ import {
   templateOptions,
 } from "../constants/template.config";
 
+import { WIKI } from "../constants/core";
+
 import RenderCurrentTemplate from "./render-template";
 
 import { removeEmptyKeys } from "../lib/utils";
@@ -216,6 +218,17 @@ const MultiImageMode = () => {
                 onChange={handleGoogleSheetsURL}
               />
             </label>
+            <div className="text-center">
+              <a
+                href={WIKI.gettingStartedMultiMode}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs underline cursor-pointer text-cyan-700 hover:text-cyan-500
+                focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-cyan-500"
+              >
+                Need Help Getting Started?
+              </a>
+            </div>
             <div className="text-center md:hidden">
               <button
                 className="w-48 rounded-lg px-3 py-2 border border-cyan-600 focus:outline-none text-cyan-600 hover:text-cyan-500 hover:border-cyan-500 active:text-cyan-700 active:border-cyan-700 transform transition hover:-translate-y-0.5"
@@ -250,8 +263,8 @@ const MultiImageMode = () => {
                       alt="connect google sheets"
                     />
                   </figure>
-                  <p className="mt-6 text-sm text-cyan-800">
-                    please make sure the google sheet is connected
+                  <p className="mt-6 md:mt-12 text-sm text-cyan-800">
+                    Make sure the google sheet is connected
                   </p>
                 </div>
               )}

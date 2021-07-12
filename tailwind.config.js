@@ -26,6 +26,7 @@ module.exports = {
     extend: {
       textColor: ["active"],
       backgroundColor: ["active"],
+      // textColor: ["visited"],
     },
   },
   plugins: [require("@tailwindcss/forms")],
