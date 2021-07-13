@@ -13,6 +13,8 @@ import debounce from "lodash.debounce";
 
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   designTemplateConfig,
@@ -38,21 +40,21 @@ const importTemplate = (templateName, templateCategory) =>
 
 const spinnerSVG = (
   <svg
-    class="animate-spin -ml-1 mr-3 h-5 w-5 inline"
+    className="animate-spin -ml-1 mr-3 h-5 w-5 inline"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
   >
     <circle
-      class="opacity-25"
+      className="opacity-25"
       cx="12"
       cy="12"
       r="10"
       stroke="currentColor"
-      stroke-width="4"
+      strokeWidth="4"
     ></circle>
     <path
-      class="opacity-75"
+      className="opacity-75"
       fill="currentColor"
       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
     ></path>
@@ -116,19 +118,30 @@ const MultiImageMode = () => {
 
   const generateMultipleImage = () => {
     console.log("generate multi images...");
+
     setGeneratingImage(true);
     setGeneratingImageError({
       status: false,
       message: "",
     });
 
-    // console.log("googleSheetId", googleSheetId);
     if (!googleSheetId) {
       setGeneratingImage(false);
       setGeneratingImageError({
         status: true,
         message: "Please enter google sheets id!",
       });
+
+      toast("🙊 Please enter google sheets ID!", {
+        position: "bottom-right",
+        autoClose: 3500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
       return;
     }
 
@@ -164,6 +177,15 @@ const MultiImageMode = () => {
           message:
             "Something went wrong. Make sure all steps have been followed correctly!",
         });
+        toast("❌ Something went wrong!", {
+          position: "bottom-right",
+          autoClose: 3500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
         console.log(error);
       });
   };
@@ -171,8 +193,19 @@ const MultiImageMode = () => {
   const downloadMultipleImage = () => {
     console.log("download multi images...");
 
-    /** @todo Show pop up if google sheet ain't connected and there are no  htmlref*/
-    if (multiImageReference.current.length == 0) return;
+    if (multiImageReference.current.length == 0) {
+      toast("💔 Google Sheet is not connected!", {
+        position: "bottom-right",
+        autoClose: 3500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+      return;
+    }
 
     zipDownloadImages(multiImageReference.current);
   };
@@ -369,6 +402,7 @@ const MultiImageMode = () => {
               Download Image
             </button>
           </div>
+          <ToastContainer />
         </div>
       </div>
     </div>

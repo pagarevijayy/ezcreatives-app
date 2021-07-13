@@ -20,6 +20,9 @@ import { removeEmptyKeys, getRandomInteger } from "../lib/utils";
 
 import { determineTemplateCategory, downloadSingleFile } from "../lib/helpers";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const importTemplate = (templateName, templateCategory) =>
   lazy(() => {
     return import(`../lib/templates/${templateCategory}-designs`).then(
@@ -49,6 +52,15 @@ const SingleImageMode = () => {
   const generateImage = (values) => {
     const trimmedValues = removeEmptyKeys(values);
     setTemplateConfigData(trimmedValues);
+    toast("😎 Preview is ready!", {
+      position: "bottom-right",
+      autoClose: 3500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
 
   const formik = useFormik({
@@ -84,7 +96,6 @@ const SingleImageMode = () => {
       imageReference.current,
       `ezcreatives${getRandomInteger()}_`
     );
-    /** @todo: Notify using toast the image is downloaded */
   };
 
   return (
@@ -454,6 +465,7 @@ const SingleImageMode = () => {
             </button>
           </div>
         </div>
+        <ToastContainer />
       </div>
     </div>
   );
