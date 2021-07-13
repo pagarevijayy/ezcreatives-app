@@ -36,8 +36,37 @@ const importTemplate = (templateName, templateCategory) =>
     );
   });
 
+const spinnerSVG = (
+  <svg
+    class="animate-spin -ml-1 mr-3 h-5 w-5 inline"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+  >
+    <circle
+      class="opacity-25"
+      cx="12"
+      cy="12"
+      r="10"
+      stroke="currentColor"
+      stroke-width="4"
+    ></circle>
+    <path
+      class="opacity-75"
+      fill="currentColor"
+      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+    ></path>
+  </svg>
+);
+
 const MultiImageMode = () => {
   const [selectedListItem, setSelectedListItem] = useState(templateOptions[0]);
+
+  const [generatingImage, setGeneratingImage] = useState(false);
+  const [generatingImageError, setGeneratingImageError] = useState({
+    status: false,
+    message: "",
+  });
 
   const debouncedTemplateID = useRef(
     debounce((id) => {
@@ -87,8 +116,21 @@ const MultiImageMode = () => {
 
   const generateMultipleImage = () => {
     console.log("generate multi images...");
+    setGeneratingImage(true);
+    setGeneratingImageError({
+      status: false,
+      message: "",
+    });
+
     // console.log("googleSheetId", googleSheetId);
-    if (!googleSheetId) return;
+    if (!googleSheetId) {
+      setGeneratingImage(false);
+      setGeneratingImageError({
+        status: true,
+        message: "Please enter google sheets id!",
+      });
+      return;
+    }
 
     /**@todo: don't call api if data was previously available and sheet id hasn't changed */
 
@@ -105,9 +147,23 @@ const MultiImageMode = () => {
           );
           setMultiImageContent(trimmedConfigArray);
           // console.log("multiImageContent", multiImageContent);
+        } else {
+          setGeneratingImageError({
+            status: true,
+            message:
+              "Something went wrong. Make sure all steps have been followed correctly!",
+          });
         }
+
+        setGeneratingImage(false);
       })
       .catch((error) => {
+        setGeneratingImage(false);
+        setGeneratingImageError({
+          status: true,
+          message:
+            "Something went wrong. Make sure all steps have been followed correctly!",
+        });
         console.log(error);
       });
   };
@@ -137,10 +193,15 @@ const MultiImageMode = () => {
           <div className="mt-4 text-left space-y-8">
             <div className="text-center hidden md:block">
               <button
+                disabled={generatingImage}
                 className="w-48 rounded-lg px-3 py-2 border border-cyan-600 focus:outline-none text-cyan-600 hover:text-cyan-500 hover:border-cyan-500 active:text-cyan-700 active:border-cyan-700 transform transition hover:-translate-y-0.5"
                 onClick={generateMultipleImage}
               >
-                Generate Image
+                {generatingImage ? (
+                  <span> {spinnerSVG} Generating... </span>
+                ) : (
+                  `Generate Image`
+                )}
               </button>
             </div>
             <Listbox value={selectedListItem} onChange={handleTemplateId}>
@@ -217,6 +278,11 @@ const MultiImageMode = () => {
                 placeholder="google sheets id"
                 onChange={handleGoogleSheetsURL}
               />
+              {generatingImageError.status ? (
+                <p className="mt-4 px-1 text-xs text-red-500">
+                  {generatingImageError.message}
+                </p>
+              ) : null}
             </label>
             <div className="text-center">
               <a
@@ -231,10 +297,15 @@ const MultiImageMode = () => {
             </div>
             <div className="text-center md:hidden">
               <button
+                disabled={generatingImage}
                 className="w-48 rounded-lg px-3 py-2 border border-cyan-600 focus:outline-none text-cyan-600 hover:text-cyan-500 hover:border-cyan-500 active:text-cyan-700 active:border-cyan-700 transform transition hover:-translate-y-0.5"
                 onClick={generateMultipleImage}
               >
-                Generate Image
+                {generatingImage ? (
+                  <span> {spinnerSVG} Generating... </span>
+                ) : (
+                  `Generate Image`
+                )}
               </button>
             </div>
           </div>
