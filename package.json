@@ -1,9 +1,9 @@
 {
-  "name": "with-tailwindcss",
+  "name": "ezcreatives-app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -H 192.168.0.106",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start"
   },
